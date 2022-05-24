@@ -6,8 +6,8 @@ function App() {
   return (
     <div className="2xl:container mx-auto">
       <AppBar />
-      {/* <Homescreen /> */}
-      <ProductScreen />
+      <Homescreen />
+      {/* <ProductScreen /> */}
     </div>
   );
 }
