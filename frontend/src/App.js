@@ -10,7 +10,17 @@ function App() {
         <AppBar />
         <Routes>
           <Route path="/" element={<Homescreen />} />
-          <Route path="/product" element={<ProductScreen />} />
+          <Route path="/product" element={<ProductScreen />}>
+            <Route path=":productId" element={<ProductScreen />} />
+          </Route>
+          <Route
+            path="*"
+            element={
+              <div className="flex justify-center items-center">
+                <p>Tidak ada apa apa disini kawan</p>
+              </div>
+            }
+          />
         </Routes>
       </div>
     </BrowserRouter>

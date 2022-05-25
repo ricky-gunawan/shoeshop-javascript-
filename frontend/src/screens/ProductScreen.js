@@ -1,11 +1,13 @@
+import { useParams } from "react-router-dom";
 import ProductDetail from "../components/ProductDetail";
-import productList from "../assets/productList";
+import { getProductDetail } from "../assets/productList";
 
-const { name, img, price } = productList[0];
 export default function ProductScreen() {
+  const params = useParams();
+  const { name, img, price, description } = getProductDetail(params.productId);
   return (
     <div className="mt-20">
-      <ProductDetail name={name} img={img} price={price} />;
+      <ProductDetail name={name} img={img} price={price} description={description} />
     </div>
   );
 }
