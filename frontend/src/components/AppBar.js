@@ -2,7 +2,7 @@ import { ShoppingCartIcon, UserIcon } from "@heroicons/react/outline";
 
 export default function AppBar() {
   return (
-    <div className="flex fixed left-0 top-0 w-full h-16 px-2 sm:px-6 items-center text-neutral-50 bg-cyan-400">
+    <div className="flex fixed top-0 left-1/2 -translate-x-1/2 w-full max-w-screen-2xl h-16 px-2 sm:px-6 items-center text-neutral-50 bg-cyan-400">
       <a href="" className="flex grow items-center">
         <img src={require("./../assets/shoeshop.png")} width={48} alt="" />
         <div className="ml-2 text-xl font-extrabold">Shoeshop</div>
