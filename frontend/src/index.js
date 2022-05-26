@@ -1,13 +1,41 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import ProductScreen from "./screens/ProductScreen";
+import Homescreen from "./screens/HomeScreen";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />}>
+          <Route index element={<Homescreen />} />
+          <Route path="product" element={<App />}>
+            <Route path=":productId" element={<ProductScreen />} />
+            <Route
+              index
+              element={
+                <div className="flex mt-20 justify-center items-center">
+                  <p>Untuk melihat produk, masukkan id produk!</p>
+                </div>
+              }
+            />
+          </Route>
+          <Route
+            path="*"
+            element={
+              <div className="flex mt-20 justify-center items-center">
+                <p>Tidak ada apa apa disini kawan</p>
+              </div>
+            }
+          />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
