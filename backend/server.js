@@ -7,14 +7,22 @@ const express = require("express");
 const app = express();
 
 // mongoose
-const mongoose = require("mongoose");
-mongoose.connect("mongodb://localhost:3000/products");
-const Products = require("./models/productsModel");
+const connectDB = require("./config/db");
+const Product = require("./models/productModel");
+
+connectDB();
+
+////////////////////////////////////////////
 
 app.use(express.json());
 
-app.get("/api/products", (req, res) => {
-  res.send("test get all");
+app.get("/api/products", async (req, res) => {
+  try {
+    const Products = await Product.find({});
+    res.json(Products);
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 app.get("/api/products/:id", (req, res) => {
   const params = req.params.id;
