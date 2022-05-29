@@ -1,20 +1,46 @@
 import { ShoppingCartIcon } from "@heroicons/react/outline";
+import { Link } from "react-router-dom";
 
-export default function ProductDetail({ img, name, price, description }) {
+export default function ProductDetail({ img, name, price, brand, color, description }) {
   return (
     <div className="flex flex-col sm:flex-row max-w-screen-lg mx-4 lg:mx-auto overflow-hidden">
       <div className="overflow-hidden sm:w-1/2 w-full">
         <img className="mx-auto rounded-lg" src={img} alt={name} />
       </div>
       <div className="flex flex-col p-4 gap-3 w-full sm:w-1/2">
-        <div className="text-xl font-bold grow-0">{name}</div>
-        <div className="text-xl grow-0">Rp. {price}</div>
+        <h2 className="text-xl font-bold grow-0 uppercase">{name}</h2>
+        <h2 className="text-xl grow-0">Rp. {price}</h2>
+        <h3 className="text-sm grow-0">
+          Brand: <span className="uppercase">{brand}</span>
+        </h3>
+        <h3 className="text-sm grow-0">
+          Color:{" "}
+          <span
+            className={`px-1 rounded-md ${
+              color === "black"
+                ? "bg-black text-white"
+                : color === "blue"
+                ? "bg-blue-600 text-white"
+                : color === "green"
+                ? "bg-green-600 text-white"
+                : color === "red"
+                ? "bg-red-600 text-white"
+                : color === "white"
+                ? "bg-white border text-black"
+                : ""
+            }`}
+          >
+            {color}
+          </span>
+        </h3>
         <p className="text-base grow">{description}</p>
         <div className="flex justify-end grow-0">
-          <button className="rounded-md bg-cyan-400 p-2 font-semibold text-neutral-50 hover:scale-105">BUY NOW</button>
-          <a className="ml-2" href="">
+          <Link to="" className="rounded-md bg-cyan-400 p-2 font-semibold text-neutral-50 hover:scale-105">
+            BUY NOW
+          </Link>
+          <Link to="" className="ml-2" href="">
             <ShoppingCartIcon className="w-10 h-10 p-1 rounded-md text-neutral-50 bg-cyan-400 hover:scale-105" />
-          </a>
+          </Link>
         </div>
       </div>
     </div>

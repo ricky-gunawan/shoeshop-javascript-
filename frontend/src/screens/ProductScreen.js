@@ -19,10 +19,10 @@ export default function ProductScreen() {
     };
     getDetailProduct();
   }, []);
-  const { name, img, price, description } = product;
+  const { name, img, price, brand, color, description } = product;
   return (
     <div className="mt-20">
-      <ProductDetail name={name} img={img} price={price} description={description} />
+      <ProductDetail name={name} img={img} price={price} brand={brand} color={color} description={description} />
     </div>
   );
 }
