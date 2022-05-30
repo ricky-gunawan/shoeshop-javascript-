@@ -1,4 +1,4 @@
-const productsList = [
+const productsTest = [
   {
     name: "nike air max pre-day",
     img: "/images/58903c0b-0afe-400e-8ac6-9bf3ccf940ba.webp",
@@ -754,4 +754,4 @@ const productsList = [
   },
 ];
 
-module.exports = productsList;
+export default productsTest;

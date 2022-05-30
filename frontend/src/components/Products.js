@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-// import { getAllProducts } from "../assets/productList";
 import ProductCard from "./ProductCard";
 
 export default function Products() {
@@ -12,7 +11,6 @@ export default function Products() {
       try {
         const response = await axios.get("/api/products");
         setProducts(response.data);
-        // console.log(response.data);
       } catch (error) {
         console.log(error);
       }

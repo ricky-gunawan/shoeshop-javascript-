@@ -6,6 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProductScreen from "./screens/ProductScreen";
 import Homescreen from "./screens/HomeScreen";
+import CartScreen from "./screens/CartScreen";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -25,6 +26,7 @@ root.render(
               }
             />
           </Route>
+          <Route path="/cart" element={<CartScreen />}></Route>
           <Route
             path="*"
             element={

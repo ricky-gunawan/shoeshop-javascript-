@@ -21,7 +21,7 @@ export default function ProductCard({ img, name, price }) {
       <div className="m-3 text-lg font-bold uppercase">{name}</div>
       <div className="m-3 text-lg">Rp. {price}</div>
       <div className="flex m-3 justify-end">
-        <Link to="" className="rounded-md bg-cyan-400 p-2 font-semibold uppercase text-neutral-50 hover:scale-105">
+        <Link to="/cart" className="rounded-md bg-cyan-400 p-2 font-semibold uppercase text-neutral-50 hover:scale-105">
           {buytext}
         </Link>
         <Link to="" className="ml-2" href="">
