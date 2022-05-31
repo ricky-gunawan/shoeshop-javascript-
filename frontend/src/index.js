@@ -26,7 +26,7 @@ root.render(
               }
             />
           </Route>
-          <Route path="/cart" element={<CartScreen />}></Route>
+          <Route path="cart" element={<CartScreen />}></Route>
           <Route
             path="*"
             element={
