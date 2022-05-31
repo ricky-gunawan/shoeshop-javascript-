@@ -1,5 +1,6 @@
 const productsTest = [
   {
+    _id: 1,
     name: "nike air max pre-day",
     img: "/images/58903c0b-0afe-400e-8ac6-9bf3ccf940ba.webp",
     price: "1.979.000",
@@ -8,6 +9,7 @@ const productsTest = [
     description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Harum eos tempore tenetur exercitationem maiores reiciendis totam pariatur. Illo, ea doloremque!",
   },
   {
+    _id: 2,
     name: "nike sb force 58",
     img: "/images/3ca0e8ff-9564-46b0-a808-072cc0e8053a.webp",
     price: "1.099.000",
@@ -16,6 +18,7 @@ const productsTest = [
     description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Harum eos tempore tenetur exercitationem maiores reiciendis totam pariatur. Illo, ea doloremque!",
   },
   {
+    _id: 3,
     name: "nike metcon 7",
     img: "/images/63a18e86-4df9-4615-b5f2-73c041358cd2.webp",
     price: "1.979.000",
@@ -24,6 +27,7 @@ const productsTest = [
     description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Harum eos tempore tenetur exercitationem maiores reiciendis totam pariatur. Illo, ea doloremque!",
   },
   {
+    _id: 4,
     name: "puma suede classic xxi",
     img: "/images/suede_classic_xxi_red.webp",
     price: "980.000",
@@ -32,6 +36,7 @@ const productsTest = [
     description: "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Harum eos tempore tenetur exercitationem maiores reiciendis totam pariatur. Illo, ea doloremque!",
   },
   {
+    _id: 5,
     name: "puma speedcat sparco",
     img: "/images/speedcat_sparco_red.webp",
     price: "1.400.000",
