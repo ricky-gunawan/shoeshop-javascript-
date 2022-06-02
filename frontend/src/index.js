@@ -7,6 +7,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ProductScreen from "./screens/ProductScreen";
 import Homescreen from "./screens/HomeScreen";
 import CartScreen from "./screens/CartScreen";
+import OrdersScreen from "./screens/OrdersScreen";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -27,6 +28,7 @@ root.render(
             />
           </Route>
           <Route path="cart" element={<CartScreen />}></Route>
+          <Route path="orders" element={<OrdersScreen />}></Route>
           <Route
             path="*"
             element={

@@ -5,7 +5,7 @@ export default function ProductDetail({ img, name, price, brand, color, descript
   return (
     <div className="flex flex-col sm:flex-row max-w-screen-lg mx-4 lg:mx-auto overflow-hidden">
       <div className="overflow-hidden sm:w-1/2 w-full">
-        <img className="mx-auto rounded-lg" src={img} alt={name} />
+        <img className="mx-auto rounded-lg" width={352} src={img} alt={name} />
       </div>
       <div className="flex flex-col p-4 gap-3 w-full sm:w-1/2">
         <h2 className="text-xl font-bold grow-0 uppercase">{name}</h2>

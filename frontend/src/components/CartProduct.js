@@ -2,7 +2,7 @@ import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/outline";
 
 export default function CartProduct({ img, name, price, brand, color, qty = 2 }) {
   return (
-    <div className="flex flex-col mb-2 border-t p-1">
+    <div className="flex flex-col mb-2 border-b p-1">
       <div className="flex gap-2 justify-center">
         <div className="overflow-hidden grow-0">
           <img className="rounded-lg my-1 sm:ml-4" width={100} src={img} alt={name} />
