@@ -8,6 +8,7 @@ import ProductScreen from "./screens/ProductScreen";
 import Homescreen from "./screens/HomeScreen";
 import CartScreen from "./screens/CartScreen";
 import OrdersScreen from "./screens/OrdersScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -29,6 +30,7 @@ root.render(
           </Route>
           <Route path="cart" element={<CartScreen />}></Route>
           <Route path="orders" element={<OrdersScreen />}></Route>
+          <Route path="profile" element={<ProfileScreen />}></Route>
           <Route
             path="*"
             element={

@@ -22,12 +22,14 @@ export default function AppBar() {
       >
         <UserIcon className="w-6 h-6 mb-1 bg-cyan-400" />
         <div className={`${nav ? "" : "hidden"} absolute top-full right-4 m-1 p-1 border text-black rounded-md bg-neutral-50 cursor-pointer`}>
-          <div className="hover:bg-slate-200 rounded-md p-1">Profile</div>
+          <Link to="/profile">
+            <div className="hover:bg-slate-200 rounded-md p-1">Profile</div>
+          </Link>
           <Link to="/cart">
-            <div className="hover:bg-slate-200 rounded-md p-1">My Cart</div>
+            <div className="hover:bg-slate-200 rounded-md p-1">Cart</div>
           </Link>
           <Link to="/orders">
-            <div className="hover:bg-slate-200 rounded-md p-1">My Orders</div>
+            <div className="hover:bg-slate-200 rounded-md p-1">Orders</div>
           </Link>
           <div className="hover:bg-slate-200 rounded-md p-1">Sign Out</div>
         </div>

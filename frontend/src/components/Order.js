@@ -1,8 +1,8 @@
-export default function Order({ items, total, address, payment, paid }) {
+export default function Order({ date, items, total, address, payment, paid }) {
   return (
-    <div className="border-2 self-start max-w-xs rounded-lg p-1 m-2">
-      <div className="mx-auto w-fit font-semibold text-lg">Order Details</div>
-      <table className="border-t-4">
+    <div className="border-2 self-start max-w-xs w-full rounded-lg p-1 m-2">
+      <div className="mx-auto w-fit font-semibold text-lg border-b-2">Order Details {`(${date})`}</div>
+      <table className="">
         <tr className="">
           <td className="p-2 align-top">Items</td>
           <td className="w-4 p-2 align-top">:</td>
@@ -29,8 +29,7 @@ export default function Order({ items, total, address, payment, paid }) {
           <span className="m-2 p-2 uppercase bg-green-600 rounded-lg text-white text-sm font-semibold">Paid</span>
         ) : (
           <div>
-            <span className="m-2 p-2 uppercase bg-yellow-600 rounded-lg text-white text-sm font-semibold">Unpaid</span>
-            <button className="m-2 p-2 uppercase bg-cyan-400 rounded-lg text-white text-sm font-semibold">Pay Now</button>
+            <button className="m-2 p-2 uppercase bg-cyan-400 hover:bg-cyan-500 rounded-lg text-white text-sm font-semibold">Pay Now</button>
           </div>
         )}
       </div>
