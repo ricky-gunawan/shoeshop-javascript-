@@ -1,3 +1,5 @@
+const path = require("path");
+
 // dotenv
 require("dotenv").config();
 const port = process.env.PORT;
@@ -75,6 +77,9 @@ app.delete("/api/product/:id", async (req, res) => {
     res.status(404).send(error.message);
   }
 });
+
+// static file
+app.use("/static", express.static(path.join(__dirname, "assets")));
 
 app.listen(port, () => {
   console.log(`server is running on port: ${port}`);
