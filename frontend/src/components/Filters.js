@@ -15,46 +15,65 @@ const menuClose = (
 );
 
 export default function Filters() {
-  const [filters, setFilters] = useState(false);
+  const [openfilters, setOpenFilters] = useState(false);
+  const [brand, setBrand] = useState(null);
+  const [color, setColor] = useState(null);
+
+  const handleBrandChange = (event) => {
+    setBrand(event.target.value);
+    console.log(event.target.value);
+  };
+  const handleColorChange = (event) => {
+    setColor(event.target.value);
+    console.log(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(brand);
+    console.log(color);
+  };
 
   return (
-    <div className={`fixed mt-20 rounded-r-lg top-0 w-48 bg-black/50 text-neutral-50 transition-transform duration-500 ${filters ? "" : "-translate-x-full"} lg:translate-x-0 z-20 border-r-4 border-cyan-400 lg:bg-gray-200 lg:text-black`}>
-      <button onClick={() => (filters ? setFilters(false) : setFilters(true))} className="absolute right-0 top-0 mt-2 -mr-2 translate-x-full rounded-md lg:hidden bg-cyan-400/50 text-neutral-50/50">
-        {filters ? menuClose : menuOpen}
+    <div
+      className={`fixed mt-20 rounded-r-lg top-0 w-48 bg-black/50 text-neutral-50 transition-transform duration-500 ${openfilters ? "" : "-translate-x-full"} lg:translate-x-0 z-20 border-r-4 border-cyan-400 lg:bg-gray-200 lg:text-black`}
+    >
+      <button onClick={() => (openfilters ? setOpenFilters(false) : setOpenFilters(true))} className="absolute right-0 top-0 mt-2 -mr-2 translate-x-full rounded-md lg:hidden bg-cyan-400/50 text-neutral-50/50">
+        {openfilters ? menuClose : menuOpen}
       </button>
       <div className="m-2">
         <span className="mx-auto block w-fit text-lg font-bold">Filters</span>
         <hr className="border lg:border-gray-500 border-neutral-200" />
-        <form action="">
+        <form onSubmit={handleSubmit}>
           <div className="flex flex-col">
             <span className="font-semibold m-2">Brand :</span>
             <div className="flex flex-col ml-6">
               <label className="flex items-center" htmlFor="adidas">
-                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="brand" id="adidas" />
+                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="brand" id="adidas" onChange={handleBrandChange} value="adidas" checked={brand === "adidas"} />
                 <span className="ml-2">Adidas</span>
               </label>
               <label className="flex items-center" htmlFor="converse">
-                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="brand" id="converse" />
+                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="brand" id="converse" onChange={handleBrandChange} value="converse" checked={brand === "converse"} />
                 <span className="ml-2">Converse</span>
               </label>
               <label className="flex items-center" htmlFor="new_balance">
-                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="brand" id="new_balance" />
+                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="brand" id="new_balance" onChange={handleBrandChange} value="new_balance" checked={brand === "new_balance"} />
                 <span className="ml-2">New Balance</span>
               </label>
               <label className="flex items-center" htmlFor="nike">
-                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="brand" id="nike" />
+                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="brand" id="nike" onChange={handleBrandChange} value="nike" checked={brand === "nike"} />
                 <span className="ml-2">Nike</span>
               </label>
               <label className="flex items-center" htmlFor="puma">
-                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="brand" id="puma" />
+                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="brand" id="puma" onChange={handleBrandChange} value="puma" checked={brand === "puma"} />
                 <span className="ml-2">Puma</span>
               </label>
               <label className="flex items-center" htmlFor="reebok">
-                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="brand" id="reebok" />
+                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="brand" id="reebok" onChange={handleBrandChange} value="reebok" checked={brand === "reebok"} />
                 <span className="ml-2">Reebok</span>
               </label>
               <label className="flex items-center" htmlFor="vans">
-                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="brand" id="vans" />
+                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="brand" id="vans" onChange={handleBrandChange} value="vans" checked={brand === "vans"} />
                 <span className="ml-2">Vans</span>
               </label>
             </div>
@@ -63,30 +82,30 @@ export default function Filters() {
             <span className="font-semibold m-2">Color :</span>
             <div className="flex flex-col ml-6">
               <label className="flex items-center" htmlFor="black">
-                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="color" id="black" />
+                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="color" id="black" onChange={handleColorChange} value="black" checked={color === "black"} />
                 <span className="ml-2">Black</span>
               </label>
               <label className="flex items-center" htmlFor="white">
-                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="color" id="white" />
+                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="color" id="white" onChange={handleColorChange} value="white" checked={color === "white"} />
                 <span className="ml-2">White</span>
               </label>
               <label className="flex items-center" htmlFor="red">
-                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="color" id="red" />
+                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="color" id="red" onChange={handleColorChange} value="red" checked={color === "red"} />
                 <span className="ml-2">Red</span>
               </label>
               <label className="flex items-center" htmlFor="blue">
-                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="color" id="blue" />
+                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="color" id="blue" onChange={handleColorChange} value="blue" checked={color === "blue"} />
                 <span className="ml-2">Blue</span>
               </label>
               <label className="flex items-center" htmlFor="green">
-                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="color" id="green" />
+                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="color" id="green" onChange={handleColorChange} value="green" checked={color === "green"} />
                 <span className="ml-2">Green</span>
               </label>
             </div>
           </div>
-          <a href="" className="flex justify-end">
-            <span className=" rounded-md bg-cyan-400 m-1 mt-2 px-2 py-1 font-semibold text-neutral-50 hover:scale-105">Filter</span>
-          </a>
+          <div className="flex justify-end">
+            <input type="submit" className=" rounded-md bg-cyan-400 m-1 mt-2 px-2 py-1 font-semibold text-neutral-50 hover:scale-105" value="Filter" />
+          </div>
         </form>
       </div>
     </div>
