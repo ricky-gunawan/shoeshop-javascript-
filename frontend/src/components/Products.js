@@ -2,21 +2,16 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import ProductCard from "./ProductCard";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts } from "../features/products/productsSlice";
 
 export default function Products() {
-  const [products, setProducts] = useState([]);
+  const products = useSelector((store) => store.products.products);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    const getAllProducts = async () => {
-      try {
-        const response = await axios.get("/api/products");
-        setProducts(response.data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getAllProducts();
-  }, []);
+    dispatch(getProducts("/api/products"));
+  }, [dispatch]);
 
   return (
     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-4 m-4 place-items-start">
