@@ -28,6 +28,17 @@ app.get("/api/products", async (req, res) => {
   }
 });
 
+// GET filtered products
+app.get("/api/products/search", async (req, res) => {
+  const { brand, color } = req.query;
+  try {
+    const Products = await Product.find({ brand: brand, color: color });
+    res.json(Products);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 //GET single product
 app.get("/api/products/:id", async (req, res) => {
   const params = req.params.id;
@@ -43,7 +54,7 @@ app.get("/api/products/:id", async (req, res) => {
   }
 });
 
-//PORT new product
+//POST new product
 app.post("/api/product", async (req, res) => {
   const newProduct = req.body;
   try {

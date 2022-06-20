@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { getProducts } from "../features/products/productsSlice";
 
 const menuOpen = (
   <div className="w-4 py-1 m-2">
@@ -15,6 +17,8 @@ const menuClose = (
 );
 
 export default function Filters() {
+  const dispatch = useDispatch();
+
   const [openfilters, setOpenFilters] = useState(false);
   const [brand, setBrand] = useState(null);
   const [color, setColor] = useState(null);
@@ -30,8 +34,7 @@ export default function Filters() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(brand);
-    console.log(color);
+    dispatch(getProducts(`/api/products/search?brand=${brand}&color=${color}`));
   };
 
   return (
