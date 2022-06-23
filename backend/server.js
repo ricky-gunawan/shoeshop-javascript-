@@ -32,8 +32,19 @@ app.get("/api/products", async (req, res) => {
 app.get("/api/products/search", async (req, res) => {
   const { brand, color } = req.query;
   try {
-    const Products = await Product.find({ brand: brand, color: color });
-    res.json(Products);
+    if (brand === "all" && color === "all") {
+      const Products = await Product.find({});
+      res.json(Products);
+    } else if (brand === "all") {
+      const Products = await Product.find({ color: color });
+      res.json(Products);
+    } else if (color === "all") {
+      const Products = await Product.find({ brand: brand });
+      res.json(Products);
+    } else {
+      const Products = await Product.find({ brand: brand, color: color });
+      res.json(Products);
+    }
   } catch (error) {
     res.status(500).send(error);
   }

@@ -6,10 +6,10 @@ export default function AppBar() {
   const [nav, setNav] = useState(false);
   return (
     <div className="flex fixed z-10 top-0 left-1/2 -translate-x-1/2 w-full max-w-screen-2xl h-16 px-2 sm:px-6 items-center text-neutral-50 bg-cyan-400">
-      <Link to="/" className="flex items-center">
+      <a href="/" className="flex items-center">
         <img src="/shoeshop.png" width={48} alt="" />
         <div className="ml-2 text-xl font-extrabold">Shoeshop</div>
-      </Link>
+      </a>
       <span className="grow"></span>
       <Link to="/cart">
         <ShoppingCartIcon className="w-6 h-6 text-neutral-50" />

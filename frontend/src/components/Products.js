@@ -1,25 +1,35 @@
-import { useEffect, useState } from "react";
-import axios from "axios";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import ProductCard from "./ProductCard";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "../features/products/productsSlice";
+import Loader from "./Loader";
 
 export default function Products() {
-  const products = useSelector((store) => store.products.products);
+  const productItems = useSelector((store) => store.products.productItems);
+  const isLoading = useSelector((store) => store.products.isLoading);
   const dispatch = useDispatch();
+  const params = useParams();
 
   useEffect(() => {
-    dispatch(getProducts("/api/products"));
-  }, [dispatch]);
+    dispatch(getProducts("/api/products/search?brand=all&color=all"));
+  }, [dispatch, params]);
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-4 m-4 place-items-start">
-      {products.map((product) => (
-        <Link to={`/product/${product._id}`} key={product._id}>
-          <ProductCard img={product.img} name={product.name} price={product.price} />
-        </Link>
-      ))}
-    </div>
+    <>
+      {isLoading ? (
+        <div className="w-full h-screen flex items-center justify-center">
+          <Loader />
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-4 m-4 place-items-start">
+          {productItems.map((product) => (
+            <Link to={`/product/${product._id}`} key={product._id}>
+              <ProductCard img={product.img} name={product.name} price={product.price} />
+            </Link>
+          ))}
+        </div>
+      )}
+    </>
   );
 }

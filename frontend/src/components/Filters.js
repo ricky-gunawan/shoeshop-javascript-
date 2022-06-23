@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { getProducts } from "../features/products/productsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts, setBrand, setColor } from "../features/products/productsSlice";
 
 const menuOpen = (
   <div className="w-4 py-1 m-2">
@@ -17,19 +17,21 @@ const menuClose = (
 );
 
 export default function Filters() {
+  const brand = useSelector((store) => store.products.brand);
+  const color = useSelector((store) => store.products.color);
   const dispatch = useDispatch();
 
   const [openfilters, setOpenFilters] = useState(false);
-  const [brand, setBrand] = useState(null);
-  const [color, setColor] = useState(null);
+  // const [brand, setBrand] = useState("all");
+  // const [color, setColor] = useState("all");
 
   const handleBrandChange = (event) => {
-    setBrand(event.target.value);
-    console.log(event.target.value);
+    // setBrand(event.target.value);
+    dispatch(setBrand(event.target.value));
   };
   const handleColorChange = (event) => {
-    setColor(event.target.value);
-    console.log(event.target.value);
+    // setColor(event.target.value);
+    dispatch(setColor(event.target.value));
   };
 
   const handleSubmit = (event) => {
@@ -51,6 +53,10 @@ export default function Filters() {
           <div className="flex flex-col">
             <span className="font-semibold m-2">Brand :</span>
             <div className="flex flex-col ml-6">
+              <label className="flex items-center" htmlFor="adidas">
+                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="brand" id="all" onChange={handleBrandChange} value="all" checked={brand === "all"} />
+                <span className="ml-2">All</span>
+              </label>
               <label className="flex items-center" htmlFor="adidas">
                 <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="brand" id="adidas" onChange={handleBrandChange} value="adidas" checked={brand === "adidas"} />
                 <span className="ml-2">Adidas</span>
@@ -85,6 +91,10 @@ export default function Filters() {
             <span className="font-semibold m-2">Color :</span>
             <div className="flex flex-col ml-6">
               <label className="flex items-center" htmlFor="black">
+                <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="color" id="all" onChange={handleColorChange} value="all" checked={color === "all"} />
+                <span className="ml-2">All</span>
+              </label>
+              <label className="flex items-center" htmlFor="black">
                 <input className="rounded-md text-cyan-400 focus:ring-1 focus:ring-cyan-400" type="radio" name="color" id="black" onChange={handleColorChange} value="black" checked={color === "black"} />
                 <span className="ml-2">Black</span>
               </label>
@@ -107,7 +117,7 @@ export default function Filters() {
             </div>
           </div>
           <div className="flex justify-end">
-            <input type="submit" className=" rounded-md bg-cyan-400 m-1 mt-2 px-2 py-1 font-semibold text-neutral-50 hover:scale-105" value="Filter" />
+            <input type="submit" className="cursor-pointer rounded-md bg-cyan-400 m-1 mt-2 px-2 py-1 font-semibold text-neutral-50 active:bg-cyan-500" value="Filter" />
           </div>
         </form>
       </div>
