@@ -1,5 +1,8 @@
 const path = require("path");
 
+// bcrypt
+const bcrypt = require("bcryptjs");
+
 // dotenv
 require("dotenv").config();
 const port = process.env.PORT;
@@ -11,12 +14,15 @@ const app = express();
 // mongoose
 const connectDB = require("./config/db");
 const Product = require("./models/productModel");
+const User = require("./models/userModel");
 
 connectDB();
 
 ////////////////////////////////////////////
 
 app.use(express.json());
+
+////////////////////////////////////////////
 
 // GET all products
 app.get("/api/products", async (req, res) => {
@@ -97,6 +103,25 @@ app.delete("/api/product/:id", async (req, res) => {
     res.status(201).send("succeed deleting product");
   } catch (error) {
     res.status(404).send(error.message);
+  }
+});
+
+///////////////////////////////////////////////////////////////////
+// GET user
+// user login
+app.get("/api/user", async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    const pass = await bcrypt.compare(password, user.password);
+
+    if (user && pass) {
+      res.send(user);
+    } else {
+      res.send("password do not match");
+    }
+  } catch (error) {
+    res.status(404).send("cannot find the user");
   }
 });
 

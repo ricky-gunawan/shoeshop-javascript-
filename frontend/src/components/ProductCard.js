@@ -9,7 +9,7 @@ export default function ProductCard({ img, name, price }) {
       <div className="m-3 text-lg font-bold uppercase">{name}</div>
       <div className="m-3 text-lg">Rp. {price}</div>
       <div className="flex m-3 justify-end">
-        <Link to="/cart" className="rounded-md bg-cyan-400 p-2 font-semibold uppercase text-neutral-50 active:bg-cyan-500">
+        <Link to="/cart" className="rounded-md bg-cyan-400 p-2 font-semibold uppercase text-neutral-50 hover:bg-cyan-500">
           add to cart
         </Link>
       </div>

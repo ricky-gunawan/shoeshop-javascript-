@@ -35,11 +35,8 @@ export default function ProductDetail({ img, name, price, brand, color, descript
         </h3>
         <p className="text-base grow">{description}</p>
         <div className="flex justify-end grow-0">
-          <Link to="/cart" className="rounded-md bg-cyan-400 p-2 font-semibold text-neutral-50 hover:scale-105">
-            BUY NOW
-          </Link>
-          <Link to="" className="ml-2" href="">
-            <ShoppingCartIcon className="w-10 h-10 p-1 rounded-md text-neutral-50 bg-cyan-400 hover:scale-105" />
+          <Link to="/cart" className="rounded-md uppercase bg-cyan-400 p-2 font-semibold text-neutral-50 hover:bg-cyan-500">
+            add to cart
           </Link>
         </div>
       </div>
