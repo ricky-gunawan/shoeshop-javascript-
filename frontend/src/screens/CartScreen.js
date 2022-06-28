@@ -1,6 +1,6 @@
 import CartProduct from "../components/CartProduct";
-import productsTest from "../components/productsTest";
 import OrderBox from "../components/OrderBox";
+import productsTest from "../components/productsTest";
 
 const product5 = productsTest.slice(0, 5);
 export default function CartScreen() {

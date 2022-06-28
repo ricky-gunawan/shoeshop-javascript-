@@ -7,7 +7,7 @@ const Orders = [
     total: 2000000,
     address: "jalan lurus tanpa belokan",
     payment: "paypal",
-    paid: false,
+    isPaid: false,
   },
   {
     date: new Date().toLocaleString(),
@@ -15,7 +15,7 @@ const Orders = [
     total: 2000000,
     address: "jalan lurus tanpa belokan",
     payment: "bitcoin",
-    paid: false,
+    isPaid: false,
   },
   {
     date: new Date().toLocaleString(),
@@ -23,16 +23,16 @@ const Orders = [
     total: 2000000,
     address: "jalan lurus tanpa belokan",
     payment: "stripe",
-    paid: true,
+    isPaid: true,
   },
 ];
 export default function OrdersScreen() {
   return (
     <div>
       <div className="text-center border-b-2 text-x font-bold fixed p-2 top-16 w-full h-fit bg-white">My Orders</div>
-      <div className="mt-28 flex flex-wrap items-stretch">
+      <div className="mt-28 m-4">
         {Orders.map((order) => (
-          <Order date={order.date} items={order.items} total={order.total} address={order.address} payment={order.payment} paid={order.paid} />
+          <Order date={order.date} items={order.items} total={order.total} address={order.address} payment={order.payment} isPaid={order.isPaid} />
         ))}
       </div>
     </div>

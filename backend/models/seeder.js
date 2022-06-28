@@ -1,13 +1,22 @@
 const productsList = require("./productsList");
+const userList = require("./userList");
+const Cart = require("./cartModel");
+const Order = require("./orderModel");
 const Product = require("./productModel");
+const User = require("./userModel");
 const connectDB = require("../config/db");
 
 connectDB();
 
-const importProducts = async () => {
+const importData = async () => {
   try {
+    await Cart.deleteMany();
+    await Order.deleteMany();
     await Product.deleteMany();
+    await User.deleteMany();
+
     await Product.insertMany(productsList);
+    await User.insertMany(userList);
     console.log("data imported");
     process.exit(0);
   } catch (error) {
@@ -16,9 +25,12 @@ const importProducts = async () => {
   }
 };
 
-const destroyProducts = async () => {
+const destroyData = async () => {
   try {
+    await Cart.deleteMany();
+    await Order.deleteMany();
     await Product.deleteMany();
+    await User.deleteMany();
     console.log("data destroyed");
     process.exit(0);
   } catch (error) {
@@ -28,7 +40,7 @@ const destroyProducts = async () => {
 };
 
 if (process.argv[2] === "-d") {
-  destroyProducts();
+  destroyData();
 } else {
-  importProducts();
+  importData();
 }

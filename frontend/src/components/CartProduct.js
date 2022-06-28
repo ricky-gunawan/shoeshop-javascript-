@@ -17,6 +17,9 @@ export default function CartProduct({ img, name, price, brand, color, qty = 2 })
           </h3>
           <h2 className="text-md my-1 underline">Rp. {price}</h2>
         </div>
+        <div>
+          <button className="m-2 p-2 uppercase bg-cyan-400 hover:bg-cyan-500 rounded-lg text-white text-sm font-semibold">delete</button>
+        </div>
       </div>
       <div className="flex text-sm mt-1 justify-around">
         <span className="">Quantity: </span>
