@@ -110,9 +110,9 @@ app.delete("/api/product/:id", async (req, res) => {
 });
 
 ///////////////////////////////////////////////////////////////////
-// GET user
+// POST user
 // user login
-app.get("/api/user", async (req, res) => {
+app.post("/api/user/login", async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
@@ -135,7 +135,7 @@ app.get("/api/user", async (req, res) => {
 
 // POST user
 // user sign up
-app.post("/api/user", async (req, res) => {
+app.post("/api/user/register", async (req, res) => {
   const { name, email, password, address } = req.body;
   try {
     const user = await User.findOne({ email });
