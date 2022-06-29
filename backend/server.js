@@ -118,10 +118,33 @@ app.get("/api/user", async (req, res) => {
     if (user && pass) {
       res.send(user);
     } else {
-      res.send("password do not match");
+      res.status(400).send("password do not match");
     }
   } catch (error) {
     res.status(404).send("cannot find the user");
+  }
+});
+
+// POST user
+// user sign up
+app.post("/api/user", async (req, res) => {
+  const { name, email, password, address } = req.body;
+  try {
+    const user = await User.findOne({ email });
+
+    if (user) {
+      res.status(400).send("email already used");
+    } else {
+      await bcrypt.genSalt(10, function (err, salt) {
+        bcrypt.hash(password, salt, function (err, hash) {
+          // Store hash in your password DB.
+          User.create({ name, email, password: hash, address });
+        });
+      });
+      res.status(201).send("user created");
+    }
+  } catch (error) {
+    res.status(500).send("server error");
   }
 });
 
