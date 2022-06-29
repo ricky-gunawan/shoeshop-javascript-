@@ -3,6 +3,9 @@ const path = require("path");
 // bcrypt
 const bcrypt = require("bcryptjs");
 
+// jwt
+const jwt = require("jsonwebtoken");
+
 // dotenv
 require("dotenv").config();
 const port = process.env.PORT;
@@ -116,7 +119,12 @@ app.get("/api/user", async (req, res) => {
     const pass = await bcrypt.compare(password, user.password);
 
     if (user && pass) {
-      res.send(user);
+      res.send({
+        name: user.name,
+        email: user.email,
+        address: user.address,
+        token: jwt.sign({ data: user._id }, process.env.JWT_SECRET, { expiresIn: "30d" }),
+      });
     } else {
       res.status(400).send("password do not match");
     }
