@@ -11,6 +11,8 @@ import Homescreen from "./screens/HomeScreen";
 import CartScreen from "./screens/CartScreen";
 import OrdersScreen from "./screens/OrdersScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import SignupScreen from "./screens/SignupScreen";
+import LoginScreen from "./screens/LoginScreen";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -26,7 +28,7 @@ root.render(
                 index
                 element={
                   <div className="flex mt-20 justify-center items-center">
-                    <p>Untuk melihat produk, masukkan id produk!</p>
+                    <p>404!</p>
                   </div>
                 }
               />
@@ -34,11 +36,13 @@ root.render(
             <Route path="cart" element={<CartScreen />}></Route>
             <Route path="orders" element={<OrdersScreen />}></Route>
             <Route path="profile" element={<ProfileScreen />}></Route>
+            <Route path="register" element={<SignupScreen />}></Route>
+            <Route path="login" element={<LoginScreen />}></Route>
             <Route
               path="*"
               element={
                 <div className="flex mt-20 justify-center items-center">
-                  <p>Tidak ada apa apa disini kawan</p>
+                  <p>Tidak ada apa apa di sini kawan</p>
                 </div>
               }
             />
