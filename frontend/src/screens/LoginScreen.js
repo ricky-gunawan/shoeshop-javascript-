@@ -25,7 +25,7 @@ export default function LoginScreen() {
     try {
       const resp = await axios.post("/api/user/login", { email, password });
       dispatch(setUserInfo(resp.data));
-      navigate("/");
+      window.location.assign("/");
     } catch (error) {
       if (error.response.status === 400 || error.response.status === 404) {
         setWarning("Email or Password wrong");

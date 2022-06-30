@@ -36,8 +36,7 @@ export default function SignupScreen() {
     if (name && email && address && password_1 === password_2) {
       try {
         await axios.post("/api/user/register", { name, email, password: password_1, address });
-        alert("account created");
-        navigate("/login");
+        window.location.assign("/login");
       } catch (error) {
         if (error.response.status === 400) {
           setEmailWarning("The email already used, use another email");
@@ -112,7 +111,7 @@ export default function SignupScreen() {
       <div className="mx-auto my-2 text-sm w-fit">
         Already have an account?{" "}
         <Link to="/login" className="hover:text-orange-600 underline">
-          Login
+          Log In
         </Link>
       </div>
     </div>
