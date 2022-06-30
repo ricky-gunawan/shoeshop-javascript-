@@ -1,9 +1,12 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUserInfo } from "../features/user/userInfoSlice";
 
 export default function LoginScreen() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,7 +24,7 @@ export default function LoginScreen() {
     setWarning(null);
     try {
       const resp = await axios.post("/api/user/login", { email, password });
-      console.log(resp);
+      dispatch(setUserInfo(resp.data));
       navigate("/");
     } catch (error) {
       if (error.response.status === 400 || error.response.status === 404) {
