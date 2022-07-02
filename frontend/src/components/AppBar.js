@@ -1,16 +1,22 @@
 import { ShoppingCartIcon, UserCircleIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { removeUserInfo } from "../features/user/userInfoSlice";
+import { removeUser } from "../features/user/userSlice";
 
 export default function AppBar() {
   const dispatch = useDispatch();
-  const userInfo = useSelector((store) => store.userInfo);
+  const { userInfo, userCart } = useSelector((store) => store.user);
+
+  let itemQuantity = 0;
+  userCart &&
+    userCart.items.map((item) => {
+      itemQuantity = itemQuantity + 1;
+    });
 
   const firstName = userInfo ? userInfo.name.split(" ")[0] : "";
 
   const handleSignOut = () => {
-    dispatch(removeUserInfo());
+    dispatch(removeUser());
   };
 
   return (
@@ -20,7 +26,8 @@ export default function AppBar() {
         <div className="ml-2 text-xl font-extrabold">Shoeshop</div>
       </Link>
       <span className="grow"></span>
-      <Link to="/cart">
+      <Link to="/cart" className="relative">
+        {userCart && <div className="absolute top-0 right-0 translate-x-1/2 -translate-y-1/2 bg-orange-400 rounded-md px-1 text-white">{itemQuantity}</div>}
         <ShoppingCartIcon className="w-6 h-6 text-neutral-50" />
       </Link>
       <div className="group ml-5 h-10 w-fit overflow-clip flex justify-center items-center bg-cyan-400 text-center cursor-pointer">

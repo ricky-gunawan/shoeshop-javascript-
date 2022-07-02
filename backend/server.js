@@ -18,6 +18,7 @@ const app = express();
 const connectDB = require("./config/db");
 const Product = require("./models/productModel");
 const User = require("./models/userModel");
+const Cart = require("./models/cartModel");
 
 connectDB();
 
@@ -26,17 +27,6 @@ connectDB();
 app.use(express.json());
 
 ////////////////////////////////////////////
-
-// GET all products
-app.get("/api/products", async (req, res) => {
-  try {
-    const Products = await Product.find({});
-    res.json(Products);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
 // GET filtered products
 app.get("/api/products/search", async (req, res) => {
   const { brand, color } = req.query;
@@ -119,17 +109,22 @@ app.post("/api/user/login", async (req, res) => {
     const pass = await bcrypt.compare(password, user.password);
 
     if (user && pass) {
+      const cart = (await Cart.findOne({ user: user._id })) || (await Cart.create({ user: user._id, items: [] }));
       res.send({
-        name: user.name,
-        email: user.email,
-        address: user.address,
-        token: jwt.sign({ data: user._id }, process.env.JWT_SECRET, { expiresIn: "30d" }),
+        userInfo: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+          address: user.address,
+          token: jwt.sign({ data: user._id }, process.env.JWT_SECRET, { expiresIn: "30d" }),
+        },
+        userCart: cart,
       });
     } else {
       res.status(400).send("password do not match");
     }
   } catch (error) {
-    res.status(404).send("cannot find the user");
+    res.status(404).send(error);
   }
 });
 
@@ -153,6 +148,75 @@ app.post("/api/user/register", async (req, res) => {
     }
   } catch (error) {
     res.status(500).send("server error");
+  }
+});
+
+/////////////////////////////////////////////////////////////////
+//POST cart
+//get all cart item
+app.post("/api/cart", async (req, res) => {
+  const { userId } = req.body;
+  try {
+    const cart = (await Cart.findOne({ user: userId })) || (await Cart.create({ user: userId, items: [] }));
+    res.status(200).send(cart);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+// PATCH cart
+// create cart item
+app.patch("/api/cart", async (req, res) => {
+  const { userId, productId } = req.body;
+  try {
+    const product = await Product.findById(productId);
+    const cart = await Cart.findOne({ user: userId });
+    let add = true;
+    cart.items.map((item) => {
+      if (item.product == productId) {
+        add = false;
+      }
+    });
+    if (add) {
+      const newItems = [
+        ...cart.items,
+        {
+          product: product._id,
+          name: product.name,
+          img: product.img,
+          price: product.price,
+          brand: product.brand,
+          color: product.color,
+        },
+      ];
+      await Cart.findOneAndUpdate({ user: userId }, { items: newItems }, { runValidators: true });
+      const newCart = await Cart.findOne({ user: userId });
+      res.status(201).send(newCart);
+    }
+    res.end();
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
+
+//DELETE cart
+//remove cart item
+app.delete("/api/cart", async (req, res) => {
+  const { userId, productId } = req.body;
+  try {
+    const cart = await Cart.findOne({ user: userId });
+    const newItems = [];
+    cart.items.map((item) => {
+      if (item.product != productId) {
+        newItems.push(item);
+      }
+    });
+
+    await Cart.findOneAndUpdate({ user: userId }, { items: newItems });
+    const newCart = await Cart.findOne({ user: userId });
+    res.status(201).send(newCart);
+  } catch (error) {
+    res.status(400).send(error);
   }
 });
 

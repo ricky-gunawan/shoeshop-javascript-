@@ -22,15 +22,11 @@ export default function Filters() {
   const dispatch = useDispatch();
 
   const [openfilters, setOpenFilters] = useState(false);
-  // const [brand, setBrand] = useState("all");
-  // const [color, setColor] = useState("all");
 
   const handleBrandChange = (event) => {
-    // setBrand(event.target.value);
     dispatch(setBrand(event.target.value));
   };
   const handleColorChange = (event) => {
-    // setColor(event.target.value);
     dispatch(setColor(event.target.value));
   };
 

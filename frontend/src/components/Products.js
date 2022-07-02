@@ -25,7 +25,7 @@ export default function Products() {
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-x-2 gap-y-4 m-4 place-items-start">
           {productItems.map((product) => (
             <Link to={`/product/${product._id}`} key={product._id}>
-              <ProductCard img={product.img} name={product.name} price={product.price} />
+              <ProductCard id={product._id} img={product.img} name={product.name} price={product.price} />
             </Link>
           ))}
         </div>

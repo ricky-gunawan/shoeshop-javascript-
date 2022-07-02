@@ -6,7 +6,7 @@ import ProductDetail from "../components/ProductDetail";
 import { getProductDetail } from "../features/products/productDetailSlice";
 
 export default function ProductScreen() {
-  const { name, img, price, brand, color, description } = useSelector((store) => store.product.productDetail);
+  const { _id, name, img, price, brand, color, description } = useSelector((store) => store.product.productDetail);
   const isLoading = useSelector((store) => store.product.isLoading);
   const dispatch = useDispatch();
   const params = useParams();
@@ -24,7 +24,7 @@ export default function ProductScreen() {
             <Loader />
           </div>
         ) : (
-          <ProductDetail name={name} img={img} price={price} brand={brand} color={color} description={description} />
+          <ProductDetail id={_id} name={name} img={img} price={price} brand={brand} color={color} description={description} />
         )}
       </div>
     </div>

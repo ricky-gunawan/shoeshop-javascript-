@@ -28,7 +28,7 @@ const productDetailSice = createSlice({
       state.productDetail = action.payload;
     },
     [getProductDetail.rejected]: (state) => {
-      state.isLoading = false;
+      state.isLoading = true;
     },
   },
 });

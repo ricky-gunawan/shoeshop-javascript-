@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUserInfo } from "../features/user/userInfoSlice";
+import { setUserCart, setUserInfo } from "../features/user/userSlice";
 
 export default function LoginScreen() {
   const navigate = useNavigate();
@@ -23,9 +23,10 @@ export default function LoginScreen() {
     e.preventDefault();
     setWarning(null);
     try {
-      const resp = await axios.post("/api/user/login", { email, password });
-      dispatch(setUserInfo(resp.data));
-      window.location.assign("/");
+      const { data } = await axios.post("/api/user/login", { email, password });
+      dispatch(setUserInfo(data.userInfo));
+      dispatch(setUserCart(data.userCart));
+      navigate("/");
     } catch (error) {
       if (error.response.status === 400 || error.response.status === 404) {
         setWarning("Email or Password wrong");

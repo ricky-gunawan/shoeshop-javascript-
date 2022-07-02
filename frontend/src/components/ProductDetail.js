@@ -1,7 +1,7 @@
-import { ShoppingCartIcon } from "@heroicons/react/outline";
 import { Link } from "react-router-dom";
+import AddToCart from "./AddToCart";
 
-export default function ProductDetail({ img, name, price, brand, color, description }) {
+export default function ProductDetail({ id, img, name, price, brand, color, description }) {
   return (
     <div className="flex flex-col sm:flex-row max-w-screen-lg mx-4 lg:mx-auto overflow-hidden">
       <div className="overflow-hidden sm:w-1/2 w-full">
@@ -35,9 +35,7 @@ export default function ProductDetail({ img, name, price, brand, color, descript
         </h3>
         <p className="text-base grow">{description}</p>
         <div className="flex justify-end grow-0">
-          <Link to="/cart" className="rounded-md uppercase bg-cyan-400 p-2 font-semibold text-neutral-50 hover:bg-cyan-500">
-            add to cart
-          </Link>
+          <AddToCart id={id} />
         </div>
       </div>
     </div>
