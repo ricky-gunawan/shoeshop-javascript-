@@ -1,6 +1,20 @@
 import { MinusCircleIcon, PlusCircleIcon } from "@heroicons/react/outline";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserCart } from "../features/user/userSlice";
 
-export default function CartProduct({ img, name, price, brand, color, qty = 2 }) {
+export default function CartProduct({ productId, img, name, price, brand, color, qty = 2 }) {
+  const dispatch = useDispatch();
+  const { id } = useSelector((store) => store.user.userInfo);
+
+  const deleteItem = async (productId) => {
+    try {
+      const { data } = await axios.patch("/api/cart/delete", { userId: id, productId });
+      data && dispatch(setUserCart(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="flex flex-col mb-2 border-b p-1">
       <div className="flex gap-2 justify-center">
@@ -18,7 +32,9 @@ export default function CartProduct({ img, name, price, brand, color, qty = 2 })
           <h2 className="text-md my-1 underline">Rp. {price}</h2>
         </div>
         <div>
-          <button className="m-2 p-2 uppercase bg-cyan-400 hover:bg-cyan-500 rounded-lg text-white text-sm font-semibold">delete</button>
+          <button onClick={() => deleteItem(productId)} className="m-2 p-2 uppercase bg-cyan-400 hover:bg-cyan-500 rounded-lg text-white text-sm font-semibold">
+            delete
+          </button>
         </div>
       </div>
       <div className="flex text-sm mt-1 justify-around">

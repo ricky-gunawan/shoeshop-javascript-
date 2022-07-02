@@ -166,7 +166,7 @@ app.post("/api/cart", async (req, res) => {
 
 // PATCH cart
 // create cart item
-app.patch("/api/cart", async (req, res) => {
+app.patch("/api/cart/add", async (req, res) => {
   const { userId, productId } = req.body;
   try {
     const product = await Product.findById(productId);
@@ -201,7 +201,7 @@ app.patch("/api/cart", async (req, res) => {
 
 //DELETE cart
 //remove cart item
-app.delete("/api/cart", async (req, res) => {
+app.patch("/api/cart/delete", async (req, res) => {
   const { userId, productId } = req.body;
   try {
     const cart = await Cart.findOne({ user: userId });
