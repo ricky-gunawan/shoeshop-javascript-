@@ -1,5 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
 
 const userInfo = JSON.parse(localStorage.getItem("userInfo")) || null;
 const userCart = JSON.parse(localStorage.getItem("userCart")) || null;

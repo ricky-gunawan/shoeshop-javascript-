@@ -6,7 +6,8 @@ export default function AddToCart({ id }) {
   const { userInfo } = useSelector((store) => store.user);
   const dispatch = useDispatch();
 
-  const addToCart = async (id) => {
+  const addToCart = async (e, id) => {
+    e.preventDefault();
     try {
       const { data } = await axios.patch("/api/cart", { userId: userInfo.id, productId: id });
       data && dispatch(setUserCart(data));
@@ -15,7 +16,7 @@ export default function AddToCart({ id }) {
     }
   };
   return (
-    <button onClick={() => addToCart(id)} className="rounded-md uppercase bg-cyan-400 p-2 font-semibold text-neutral-50 hover:bg-cyan-500">
+    <button onClick={(e) => addToCart(e, id)} className="rounded-md uppercase bg-cyan-400 p-2 font-semibold text-neutral-50 hover:bg-cyan-500">
       add to cart
     </button>
   );
