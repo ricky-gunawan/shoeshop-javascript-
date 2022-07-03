@@ -9,7 +9,7 @@ export default function AddToCart({ id }) {
   const addToCart = async (e, id) => {
     e.preventDefault();
     try {
-      const { data } = await axios.patch("/api/cart/add", { userId: userInfo.id, productId: id });
+      const { data } = await axios.patch("/api/cart/add", { productId: id }, { headers: { authorization: `Bearer ${userInfo.token}` } });
       data && dispatch(setUserCart(data));
     } catch (error) {
       console.log(error);

@@ -5,11 +5,11 @@ import { setUserCart } from "../features/user/userSlice";
 
 export default function CartProduct({ productId, img, name, price, brand, color, quantity }) {
   const dispatch = useDispatch();
-  const { id } = useSelector((store) => store.user.userInfo);
+  const { userInfo } = useSelector((store) => store.user);
 
   const deleteItem = async (productId) => {
     try {
-      const { data } = await axios.patch("/api/cart/delete", { userId: id, productId });
+      const { data } = await axios.patch("/api/cart/delete", { productId }, { headers: { authorization: `Bearer ${userInfo.token}` } });
       data && dispatch(setUserCart(data));
     } catch (error) {
       console.log(error);
@@ -18,7 +18,7 @@ export default function CartProduct({ productId, img, name, price, brand, color,
 
   const handleQuantity = async (increase) => {
     try {
-      const { data } = await axios.patch("/api/cart/quantity", { userId: id, productId, increase });
+      const { data } = await axios.patch("/api/cart/quantity", { productId, increase }, { headers: { authorization: `Bearer ${userInfo.token}` } });
       data && dispatch(setUserCart(data));
     } catch (error) {
       console.log(error);

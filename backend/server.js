@@ -19,6 +19,7 @@ const connectDB = require("./config/db");
 const Product = require("./models/productModel");
 const User = require("./models/userModel");
 const Cart = require("./models/cartModel");
+const protect = require("./middleware/protect");
 
 connectDB();
 
@@ -136,7 +137,6 @@ app.post("/api/user/register", async (req, res) => {
     } else {
       await bcrypt.genSalt(10, function (err, salt) {
         bcrypt.hash(password, salt, function (err, hash) {
-          // Store hash in your password DB.
           User.create({ name, email, password: hash, address });
         });
       });
@@ -150,8 +150,8 @@ app.post("/api/user/register", async (req, res) => {
 /////////////////////////////////////////////////////////////////
 //POST cart
 //get all cart item
-app.post("/api/cart", async (req, res) => {
-  const { userId } = req.body;
+app.post("/api/cart", protect, async (req, res) => {
+  const userId = req.user._id;
   try {
     const cart = (await Cart.findOne({ user: userId })) || (await Cart.create({ user: userId, items: [] }));
     res.status(200).send(cart);
@@ -162,8 +162,9 @@ app.post("/api/cart", async (req, res) => {
 
 // PATCH cart
 // add cart item
-app.patch("/api/cart/add", async (req, res) => {
-  const { userId, productId } = req.body;
+app.patch("/api/cart/add", protect, async (req, res) => {
+  const { productId } = req.body;
+  const userId = req.user._id;
   try {
     const product = await Product.findById(productId);
     const newItem = {
@@ -183,8 +184,9 @@ app.patch("/api/cart/add", async (req, res) => {
 
 //PATCH cart
 //remove cart item
-app.patch("/api/cart/delete", async (req, res) => {
-  const { userId, productId } = req.body;
+app.patch("/api/cart/delete", protect, async (req, res) => {
+  const { productId } = req.body;
+  const userId = req.user._id;
   try {
     const newCart = await Cart.findOneAndUpdate({ user: userId }, { $pull: { items: { product: productId } } }, { new: true });
     res.status(200).send(newCart);
@@ -195,8 +197,9 @@ app.patch("/api/cart/delete", async (req, res) => {
 
 // PATCH cart
 // change product quantity
-app.patch("/api/cart/quantity", async (req, res) => {
-  const { userId, productId, increase } = req.body;
+app.patch("/api/cart/quantity", protect, async (req, res) => {
+  const { productId, increase } = req.body;
+  const userId = req.user._id;
   try {
     const cart = await Cart.find({ user: userId }, { items: { $elemMatch: { product: productId } } });
     const quantity = cart[0].items[0].quantity;
