@@ -54,11 +54,7 @@ app.get("/api/products/:id", async (req, res) => {
   const params = req.params.id;
   try {
     const searchProduct = await Product.findById(params);
-    if (searchProduct) {
-      res.json(searchProduct);
-    } else {
-      res.status(404).send("couldn't find the product");
-    }
+    searchProduct ? res.json(searchProduct) : res.status(404).send("couldn't find the product");
   } catch (error) {
     res.status(404).send(error.message);
   }
@@ -165,55 +161,47 @@ app.post("/api/cart", async (req, res) => {
 });
 
 // PATCH cart
-// create cart item
+// add cart item
 app.patch("/api/cart/add", async (req, res) => {
   const { userId, productId } = req.body;
   try {
     const product = await Product.findById(productId);
-    const cart = await Cart.findOne({ user: userId });
-    let add = true;
-    cart.items.map((item) => {
-      if (item.product == productId) {
-        add = false;
-      }
-    });
-    if (add) {
-      const newItems = [
-        ...cart.items,
-        {
-          product: product._id,
-          name: product.name,
-          img: product.img,
-          price: product.price,
-          brand: product.brand,
-          color: product.color,
-        },
-      ];
-      await Cart.findOneAndUpdate({ user: userId }, { items: newItems }, { runValidators: true });
-      const newCart = await Cart.findOne({ user: userId });
-      res.status(201).send(newCart);
-    }
-    res.end();
+    const newItem = {
+      product: product._id,
+      name: product.name,
+      img: product.img,
+      price: product.price,
+      brand: product.brand,
+      color: product.color,
+    };
+    const newCart = await Cart.findOneAndUpdate({ user: userId, "items.product": { $ne: productId } }, { $push: { items: newItem } }, { runValidators: true, new: true });
+    res.status(201).send(newCart);
   } catch (error) {
     res.status(400).send(error);
   }
 });
 
-//DELETE cart
+//PATCH cart
 //remove cart item
 app.patch("/api/cart/delete", async (req, res) => {
   const { userId, productId } = req.body;
   try {
-    const cart = await Cart.findOne({ user: userId });
-    const newItems = [];
-    cart.items.map((item) => {
-      if (item.product != productId) {
-        newItems.push(item);
-      }
-    });
+    const newCart = await Cart.findOneAndUpdate({ user: userId }, { $pull: { items: { product: productId } } }, { new: true });
+    res.status(200).send(newCart);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+});
 
-    await Cart.findOneAndUpdate({ user: userId }, { items: newItems });
-    const newCart = await Cart.findOne({ user: userId });
+// PATCH cart
+// change product quantity
+app.patch("/api/cart/quantity", async (req, res) => {
+  const { userId, productId, increase } = req.body;
+  try {
+    const cart = await Cart.find({ user: userId }, { items: { $elemMatch: { product: productId } } });
+    const quantity = cart[0].items[0].quantity;
+    const newQuantity = quantity == 1 && !increase ? 1 : increase ? quantity + 1 : quantity - 1;
+    const newCart = await Cart.findOneAndUpdate({ user: userId, "items.product": productId }, { $set: { "items.$.quantity": newQuantity } }, { runValidators: true, new: true });
     res.status(201).send(newCart);
   } catch (error) {
     res.status(400).send(error);

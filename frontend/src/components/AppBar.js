@@ -1,10 +1,11 @@
 import { ShoppingCartIcon, UserCircleIcon } from "@heroicons/react/outline";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { removeUser } from "../features/user/userSlice";
 
 export default function AppBar() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { userInfo, userCart } = useSelector((store) => store.user);
 
   let itemQuantity = 0;
@@ -15,8 +16,9 @@ export default function AppBar() {
 
   const firstName = userInfo ? userInfo.name.split(" ")[0] : "";
 
-  const handleSignOut = () => {
+  const handleLogOut = () => {
     dispatch(removeUser());
+    navigate("/");
   };
 
   return (
@@ -44,7 +46,7 @@ export default function AppBar() {
             <a href="/orders">
               <div className="hover:bg-slate-200 rounded-md py-1 px-2">Orders</div>
             </a>
-            <div onClick={handleSignOut} className="hover:bg-slate-200 rounded-md py-1 px-2">
+            <div onClick={handleLogOut} className="hover:bg-slate-200 rounded-md py-1 px-2">
               Log Out
             </div>
           </div>

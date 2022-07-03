@@ -3,13 +3,22 @@ import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserCart } from "../features/user/userSlice";
 
-export default function CartProduct({ productId, img, name, price, brand, color, qty = 2 }) {
+export default function CartProduct({ productId, img, name, price, brand, color, quantity }) {
   const dispatch = useDispatch();
   const { id } = useSelector((store) => store.user.userInfo);
 
   const deleteItem = async (productId) => {
     try {
       const { data } = await axios.patch("/api/cart/delete", { userId: id, productId });
+      data && dispatch(setUserCart(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleQuantity = async (increase) => {
+    try {
+      const { data } = await axios.patch("/api/cart/quantity", { userId: id, productId, increase });
       data && dispatch(setUserCart(data));
     } catch (error) {
       console.log(error);
@@ -40,9 +49,9 @@ export default function CartProduct({ productId, img, name, price, brand, color,
       <div className="flex text-sm mt-1 justify-around">
         <span className="">Quantity: </span>
         <div className="flex">
-          <MinusCircleIcon width={20} className="mx-2 cursor-pointer" />
-          <span>{qty}</span>
-          <PlusCircleIcon width={20} className="mx-2 cursor-pointer" />
+          <MinusCircleIcon onClick={() => handleQuantity(false)} width={20} className="mx-2 cursor-pointer" />
+          <span>{quantity}</span>
+          <PlusCircleIcon onClick={() => handleQuantity(true)} width={20} className="mx-2 cursor-pointer" />
         </div>
       </div>
     </div>
