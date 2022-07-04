@@ -10,7 +10,7 @@ export default function AppBar() {
 
   let itemQuantity = 0;
   userCart &&
-    userCart.items.map((item) => {
+    userCart.items.forEach((item) => {
       itemQuantity = itemQuantity + 1;
     });
 
