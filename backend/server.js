@@ -20,6 +20,7 @@ const Product = require("./models/productModel");
 const User = require("./models/userModel");
 const Cart = require("./models/cartModel");
 const protect = require("./middleware/protect");
+const Order = require("./models/orderModel");
 
 connectDB();
 
@@ -201,13 +202,45 @@ app.patch("/api/cart/quantity", protect, async (req, res) => {
   const { productId, increase } = req.body;
   const userId = req.user._id;
   try {
-    const cart = await Cart.find({ user: userId }, { items: { $elemMatch: { product: productId } } });
-    const quantity = cart[0].items[0].quantity;
+    const cart = await Cart.findOne({ user: userId }, { items: { $elemMatch: { product: productId } } });
+    const quantity = cart.items[0].quantity;
     const newQuantity = quantity == 1 && !increase ? 1 : increase ? quantity + 1 : quantity - 1;
     const newCart = await Cart.findOneAndUpdate({ user: userId, "items.product": productId }, { $set: { "items.$.quantity": newQuantity } }, { runValidators: true, new: true });
     res.status(201).send(newCart);
   } catch (error) {
     res.status(400).send(error);
+  }
+});
+
+///////////////////////////////////////////////////////////////////////////
+// POST order
+// add an order
+app.post("/api/order", protect, async (req, res) => {
+  const { orderDetail } = req.body;
+  const userId = req.user._id;
+
+  try {
+    const cart = await Cart.findOne({ user: userId }, { _id: 0, __v: 0, items: { _id: 0 } });
+    const order = { date: new Date().toLocaleString(), user: cart.user, items: cart.items, ...orderDetail };
+    await Order.create(order);
+    const allOrder = await Order.find({ user: userId });
+    res.status(201).send(allOrder);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
+app.get("/api/test", protect, async (req, res) => {
+  const { productId } = req.body;
+  const userId = req.user._id;
+  try {
+    const cartTest = await Cart.findOne({ user: userId }, { _id: 0, __v: 0, items: { _id: 0 } });
+    const test = cartTest.items;
+    // const items = cartTest.items;
+    // const item = await items.findOne({ product: productId });
+    res.send(cartTest);
+  } catch (error) {
+    res.send("test gagal");
   }
 });
 
