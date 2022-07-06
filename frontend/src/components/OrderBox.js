@@ -1,11 +1,9 @@
 import axios from "axios";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { removeCart, setUserOrders } from "../features/user/userSlice";
 
 export default function OrderBox() {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { items } = useSelector((store) => store.user.userCart);
   const { address, token } = useSelector((store) => store.user.userInfo);
@@ -33,7 +31,7 @@ export default function OrderBox() {
       };
       const newOrder = await axios.post("/api/order", { orderDetail }, { headers: { authorization: `Bearer ${token}` } });
       dispatch(setUserOrders(newOrder.data));
-      navigate("/orders");
+      window.location.assign("/orders");
       dispatch(removeCart());
     } catch (error) {
       alert("error, try again later");

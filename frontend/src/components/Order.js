@@ -1,4 +1,4 @@
-export default function Order({ date, items, totalItems, totalPrice, address, payment, isPaid }) {
+export default function Order({ date, items, totalItems, totalPrice, address, payment, isPaid, setPaymentModal }) {
   return (
     <div className="border-2 self-start w-full rounded-lg p-1 my-4">
       <div className="mx-auto w-fit font-semibold text-lg border-b-2">Order Details {`(${date})`}</div>
@@ -60,7 +60,9 @@ export default function Order({ date, items, totalItems, totalPrice, address, pa
           ""
         ) : (
           <div>
-            <button className="m-2 p-2 uppercase bg-cyan-400 hover:bg-cyan-500 rounded-lg text-white text-sm font-semibold">Pay Now</button>
+            <button onClick={() => setPaymentModal(true)} className="m-2 p-2 uppercase bg-cyan-400 hover:bg-cyan-500 rounded-lg text-white text-sm font-semibold">
+              Pay Now
+            </button>
           </div>
         )}
       </div>
