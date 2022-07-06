@@ -51,7 +51,7 @@ export default function Order({ date, items, totalItems, totalPrice, address, pa
           <tr className="">
             <td className="p-2">Payment Status</td>
             <td className="p-2">:</td>
-            <td className="p-2">{isPaid ? "Paid" : "Not Yet Paid"}</td>
+            <td className="p-2">{isPaid ? "Paid" : "Not Paid Yet"}</td>
           </tr>
         </tbody>
       </table>

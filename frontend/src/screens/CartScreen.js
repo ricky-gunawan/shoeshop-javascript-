@@ -17,7 +17,7 @@ export default function CartScreen() {
                 <CartProduct key={product.product} productId={product.product} name={product.name} img={product.img} price={product.price} brand={product.brand} color={product.color} quantity={product.quantity} />
               ))}
             </div>
-            <div className="sm:fixed left-1/2 mx-auto h-fit sm:ml-4 max-w-sm">
+            <div className="sm:fixed left-1/2 mx-auto sm:max-h-[80vh] sm:mx-4 max-w-screen-sm">
               <OrderBox />
             </div>
           </div>

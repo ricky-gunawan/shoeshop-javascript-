@@ -34,9 +34,14 @@ const userSlice = createSlice({
       state.userCart = null;
       state.userOrders = null;
     },
+    removeCart: (state) => {
+      const cart = { ...state.userCart, items: [] };
+      localStorage.setItem("userCart", JSON.stringify(cart));
+      state.userCart = cart;
+    },
   },
 });
 
-export const { setUserInfo, setUserCart, setUserOrders, removeUser } = userSlice.actions;
+export const { setUserInfo, setUserCart, setUserOrders, removeUser, removeCart } = userSlice.actions;
 
 export default userSlice.reducer;

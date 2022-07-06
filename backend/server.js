@@ -224,6 +224,7 @@ app.post("/api/order", protect, async (req, res) => {
     const order = { date: new Date().toLocaleString(), user: cart.user, items: cart.items, ...orderDetail };
     await Order.create(order);
     const allOrder = await Order.find({ user: userId });
+    await Cart.updateOne({ user: userId }, { $set: { items: [] } });
     res.status(201).send(allOrder);
   } catch (error) {
     res.status(500).send(error);

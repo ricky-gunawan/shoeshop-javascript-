@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import AddToCart from "./AddToCart";
 
 export default function ProductDetail({ id, img, name, price, brand, color, description }) {
