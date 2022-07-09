@@ -134,7 +134,7 @@ app.post("/api/user/register", async (req, res) => {
     const user = await User.findOne({ email });
 
     if (user) {
-      res.status(400).send("email already used");
+      res.status(400).send("email has been used");
     } else {
       await bcrypt.genSalt(10, function (err, salt) {
         bcrypt.hash(password, salt, function (err, hash) {
@@ -145,6 +145,39 @@ app.post("/api/user/register", async (req, res) => {
     }
   } catch (error) {
     res.status(500).send("server error");
+  }
+});
+
+// PATCH user
+// edit user profile
+app.patch("/api/user/edit", protect, async (req, res) => {
+  const { name, email, password, address } = req.body;
+  const newData = { ...(name && { name }), ...(email && { email }), ...(address && { address }) };
+  const userId = req.user._id;
+  try {
+    const user = await User.findOne({ email, _id: { $ne: userId } });
+    let newProfile;
+
+    if (user) {
+      res.status(400).send("email has been used");
+    } else {
+      if (password) {
+        const hashPassword = await bcrypt.hashSync(password, 10);
+        newProfile = await User.findOneAndUpdate({ _id: userId }, { $set: { ...newData, password: hashPassword } }, { runValidators: true, new: true });
+      } else {
+        newProfile = await User.findOneAndUpdate({ _id: userId }, { $set: newData }, { runValidators: true, new: true });
+      }
+
+      res.status(200).send({
+        id: newProfile._id,
+        name: newProfile.name,
+        email: newProfile.email,
+        address: newProfile.address,
+        token: jwt.sign({ data: newProfile._id }, process.env.JWT_SECRET, { expiresIn: "30d" }),
+      });
+    }
+  } catch (error) {
+    res.status(500).send(error);
   }
 });
 

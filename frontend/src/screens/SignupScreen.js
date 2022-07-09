@@ -31,13 +31,13 @@ export default function SignupScreen() {
     setPasswordWarning(null);
     setEmailWarning(null);
     e.preventDefault();
-    if (name && email && address && password_1 === password_2) {
+    if (password_1 === password_2) {
       try {
         await axios.post("/api/user/register", { name, email, password: password_1, address });
         window.location.assign("/login");
       } catch (error) {
         if (error.response.status === 400) {
-          setEmailWarning("The email already used, use another email");
+          setEmailWarning("The email has been used, use another email");
         } else if (error.response.status === 500) {
           alert("server error, try again later");
         } else {
