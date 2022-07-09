@@ -114,6 +114,7 @@ app.post("/api/user/login", async (req, res) => {
           name: user.name,
           email: user.email,
           address: user.address,
+          isAdmin: user.isAdmin,
           token: jwt.sign({ data: user._id }, process.env.JWT_SECRET, { expiresIn: "30d" }),
         },
         userCart: cart,
