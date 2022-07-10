@@ -13,6 +13,10 @@ import OrdersScreen from "./screens/OrdersScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import SignupScreen from "./screens/SignupScreen";
 import LoginScreen from "./screens/LoginScreen";
+import AdminProducts from "./screens/AdminProducts";
+import AdminUsers from "./screens/AdminUsers";
+import AdminOrders from "./screens/AdminOrders";
+import AdminCarts from "./screens/AdminCarts";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -22,26 +26,21 @@ root.render(
         <Routes>
           <Route path="/" element={<App />}>
             <Route index element={<Homescreen />} />
-            <Route path="product" element={<App />}>
-              <Route path=":productId" element={<ProductScreen />} />
-              <Route
-                index
-                element={
-                  <div className="flex mt-20 justify-center items-center">
-                    <p>404!</p>
-                  </div>
-                }
-              />
-            </Route>
-            <Route path="cart" element={<CartScreen />}></Route>
-            <Route path="orders" element={<OrdersScreen />}></Route>
-            <Route path="profile" element={<ProfileScreen />}></Route>
-            <Route path="register" element={<SignupScreen />}></Route>
-            <Route path="login" element={<LoginScreen />}></Route>
+            <Route path="product/:productId" element={<ProductScreen />} />
+            <Route path="cart" element={<CartScreen />} />
+            <Route path="orders" element={<OrdersScreen />} />
+            <Route path="profile" element={<ProfileScreen />} />
+            <Route path="register" element={<SignupScreen />} />
+            <Route path="login" element={<LoginScreen />} />
+            <Route path="admin/products" element={<AdminProducts />} />
+            <Route path="admin/users" element={<AdminUsers />} />
+            <Route path="admin/orders" element={<AdminOrders />} />
+            <Route path="admin/carts" element={<AdminCarts />} />
             <Route
               path="*"
               element={
-                <div className="flex mt-20 justify-center items-center">
+                <div className="mt-28 text-center">
+                  <p>404!</p>
                   <p>Tidak ada apa apa di sini kawan</p>
                 </div>
               }

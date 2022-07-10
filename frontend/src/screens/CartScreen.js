@@ -13,9 +13,13 @@ export default function CartScreen() {
           <div className="text-center border-b-2 text-xl font-bold fixed p-2 top-16 w-full h-fit bg-white">My Cart</div>
           <div className="m-4 mt-28 flex flex-col sm:flex-row gap-2 sm:gap-4">
             <div className="sm:w-1/2 max-w-lg">
-              {userCart.items.map((product) => (
-                <CartProduct key={product.product} productId={product.product} name={product.name} img={product.img} price={product.price} brand={product.brand} color={product.color} quantity={product.quantity} />
-              ))}
+              {userCart.items == true ? (
+                userCart.items.map((product) => (
+                  <CartProduct key={product.product} productId={product.product} name={product.name} img={product.img} price={product.price} brand={product.brand} color={product.color} quantity={product.quantity} />
+                ))
+              ) : (
+                <div className="text-center text-xl">No Product in Cart</div>
+              )}
             </div>
             <div className="sm:fixed left-1/2 mx-auto sm:max-h-[80vh] sm:mx-4 max-w-screen-sm">
               <OrderBox />
