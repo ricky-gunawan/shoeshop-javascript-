@@ -265,17 +265,41 @@ app.post("/api/order", protect, async (req, res) => {
   }
 });
 
-app.get("/api/test", protect, async (req, res) => {
-  const { productId } = req.body;
-  const userId = req.user._id;
+////////////////////////////////////////////////////////////////////
+// GET admin products
+// get all products
+app.get("/api/admin/products", async (req, res) => {
   try {
-    const cartTest = await Cart.findOne({ user: userId }, { _id: 0, __v: 0, items: { _id: 0 } });
-    const test = cartTest.items;
-    // const items = cartTest.items;
-    // const item = await items.findOne({ product: productId });
-    res.send(cartTest);
+    const allProducts = await Product.find({});
+    res.status(200).send(allProducts);
   } catch (error) {
-    res.send("test gagal");
+    res.send(error);
+  }
+});
+
+// GET admin single product
+// get single products
+app.get("/api/admin/products/:productId", async (req, res) => {
+  const { productId } = req.params;
+  try {
+    const singleProduct = await Product.findById(productId);
+    res.status(200).send(singleProduct);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+// DELETE admin products
+// get all products
+app.delete("/api/admin/products", async (req, res) => {
+  const { productId } = req.body;
+  console.log(productId);
+  try {
+    await Product.deleteOne({ _id: productId });
+    const allProducts = await Product.find({});
+    res.status(200).send(allProducts);
+  } catch (error) {
+    res.send(error);
   }
 });
 

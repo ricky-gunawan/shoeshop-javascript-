@@ -17,6 +17,7 @@ import AdminProducts from "./screens/AdminProducts";
 import AdminUsers from "./screens/AdminUsers";
 import AdminOrders from "./screens/AdminOrders";
 import AdminCarts from "./screens/AdminCarts";
+import AdminEditProduct from "./screens/AdminEditProduct";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -33,6 +34,7 @@ root.render(
             <Route path="register" element={<SignupScreen />} />
             <Route path="login" element={<LoginScreen />} />
             <Route path="admin/products" element={<AdminProducts />} />
+            <Route path="admin/products/:productId" element={<AdminEditProduct />} />
             <Route path="admin/users" element={<AdminUsers />} />
             <Route path="admin/orders" element={<AdminOrders />} />
             <Route path="admin/carts" element={<AdminCarts />} />
