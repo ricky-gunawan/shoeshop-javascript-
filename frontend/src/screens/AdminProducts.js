@@ -29,16 +29,16 @@ export default function AdminProducts() {
           <table>
             <thead className="text-center border-y-2">
               <tr>
-                <th className="">ID</th>
+                <th>id</th>
                 <th>image</th>
                 <th>name</th>
                 <th>price</th>
                 <th>brand</th>
                 <th>color</th>
-                <th className="">description</th>
+                <th>description</th>
               </tr>
             </thead>
-            <tbody className="">
+            <tbody>
               {products.map(({ _id, img, name, price, brand, color, description }) => (
                 <ProductList key={_id} _id={_id} img={img} name={name} price={price} brand={brand} color={color} description={description} />
               ))}

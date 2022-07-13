@@ -293,11 +293,86 @@ app.get("/api/admin/products/:productId", async (req, res) => {
 // get all products
 app.delete("/api/admin/products", async (req, res) => {
   const { productId } = req.body;
-  console.log(productId);
   try {
     await Product.deleteOne({ _id: productId });
     const allProducts = await Product.find({});
     res.status(200).send(allProducts);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+////////////////////////////////////////////////////////////////////
+// GET admin users
+// get all users
+app.get("/api/admin/users", async (req, res) => {
+  try {
+    const allUsers = await User.find({}).select({ password: 0 });
+    res.status(200).send(allUsers);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+// GET admin single user
+// get single user
+app.get("/api/admin/users/:userId", async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const singleUser = await User.findById(userId);
+    res.status(200).send(singleUser);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+// DELETE admin users
+// delete user
+app.delete("/api/admin/users", async (req, res) => {
+  const { userId } = req.body;
+
+  try {
+    await User.deleteOne({ _id: userId });
+    const allUsers = await User.find({});
+    res.status(200).send(allUsers);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+////////////////////////////////////////////////////////////////////
+// GET admin orders
+// get all orders
+app.get("/api/admin/orders", async (req, res) => {
+  try {
+    const allOrders = await Order.find({});
+    res.status(200).send(allOrders);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+// GET admin single order
+// get single order
+app.get("/api/admin/orders/:orderId", async (req, res) => {
+  const { orderId } = req.params;
+  try {
+    const singleOrder = await Order.findById(orderId);
+    res.status(200).send(singleOrder);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+// DELETE admin orders
+// delete order
+app.delete("/api/admin/orders", async (req, res) => {
+  const { orderId } = req.body;
+
+  try {
+    await Order.deleteOne({ _id: orderId });
+    const allOrders = await Order.find({});
+    res.status(200).send(allOrders);
   } catch (error) {
     res.send(error);
   }

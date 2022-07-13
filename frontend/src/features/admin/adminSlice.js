@@ -6,6 +6,7 @@ const initialState = {
   products: [],
   product: { _id: "", img: "", name: "", price: "", brand: "", color: "", description: "" },
   users: [],
+  user: { _id: "", name: "", email: "", address: "", isAdmin: "" },
   orders: [],
   carts: [],
 };
@@ -32,35 +33,61 @@ export const deleteProduct = createAsyncThunk("admin/deleteProduct", async (prod
   try {
     const resp = await axios.delete("/api/admin/products", { data: { productId } });
     const allProducts = resp.data;
-    console.log(allProducts);
     return allProducts;
   } catch (error) {
     console.log(error);
   }
 });
+
+///////////////////////////////////////////////////////////////////////////////////
+
 export const getAllUsers = createAsyncThunk("admin/getAllUsers", async () => {
   try {
-    const resp = await axios.get("api/admin/users");
+    const resp = await axios.get("/api/admin/users");
     const allUsers = resp.data;
     return allUsers;
   } catch (error) {
     console.log(error);
   }
 });
+
+export const getSingleUser = createAsyncThunk("admin/getSingleUser", async (userId) => {
+  try {
+    const resp = await axios.get(`/api/admin/users/${userId}`);
+    const singleUser = resp.data;
+    return singleUser;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+export const deleteUser = createAsyncThunk("admin/deleteUser", async (userId) => {
+  try {
+    const resp = await axios.delete("/api/admin/users", { data: { userId } });
+    const allUsers = resp.data;
+    return allUsers;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+///////////////////////////////////////////////////////////////////////////////////
+
 export const getAllOrders = createAsyncThunk("admin/getAllOrders", async () => {
   try {
-    const resp = await axios.get("api/admin/orders");
+    const resp = await axios.get("/api/admin/orders");
     const allOrders = resp.data;
     return allOrders;
   } catch (error) {
     console.log(error);
   }
 });
-export const getAllCarts = createAsyncThunk("admin/getAllCarts", async () => {
+
+export const deleteOrder = createAsyncThunk("admin/deleteOrder", async (orderId) => {
   try {
-    const resp = await axios.get("api/admin/carts");
-    const allCarts = resp.data;
-    return allCarts;
+    const resp = await axios.delete("/api/admin/orders", { data: { orderId } });
+    const allOrders = resp.data;
+    return allOrders;
   } catch (error) {
     console.log(error);
   }
@@ -70,11 +97,17 @@ const adminSlice = createSlice({
   name: "admin",
   initialState,
   reducers: {
-    setFormEdit: (state, action) => {
+    setProductForm: (state, action) => {
       const elemName = action.payload.name;
       const value = action.payload.value;
 
       state.product[elemName] = value;
+    },
+    setUserForm: (state, action) => {
+      const elemName = action.payload.name;
+      const value = action.payload.value;
+
+      state.user[elemName] = value;
     },
   },
   extraReducers: {
@@ -85,7 +118,7 @@ const adminSlice = createSlice({
       state.isLoading = false;
       state.products = action.payload;
     },
-    ////////
+    ////
     [getSingleProduct.pending]: (state) => {
       state.isLoading = true;
     },
@@ -93,7 +126,7 @@ const adminSlice = createSlice({
       state.isLoading = false;
       state.product = action.payload;
     },
-    ////////
+    ////
     [deleteProduct.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.products = action.payload;
@@ -107,6 +140,21 @@ const adminSlice = createSlice({
       state.isLoading = false;
       state.users = action.payload;
     },
+    ////
+    [getSingleUser.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getSingleUser.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.user = action.payload;
+    },
+    ////
+    [deleteUser.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.users = action.payload;
+    },
+
+    //////////////////////////////////
     [getAllOrders.pending]: (state) => {
       state.isLoading = true;
     },
@@ -114,16 +162,14 @@ const adminSlice = createSlice({
       state.isLoading = false;
       state.orders = action.payload;
     },
-    [getAllCarts.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [getAllCarts.fulfilled]: (state, action) => {
+    ////
+    [deleteOrder.fulfilled]: (state, action) => {
       state.isLoading = false;
-      state.carts = action.payload;
+      state.orders = action.payload;
     },
   },
 });
 
-export const { setFormEdit } = adminSlice.actions;
+export const { setProductForm, setUserForm } = adminSlice.actions;
 
 export default adminSlice.reducer;

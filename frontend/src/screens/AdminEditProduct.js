@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Loader from "../components/Loader";
-import { getSingleProduct, setFormEdit } from "../features/admin/adminSlice";
+import { getSingleProduct, setProductForm } from "../features/admin/adminSlice";
 
 export default function AdminEditProduct() {
   const { product, isLoading } = useSelector((store) => store.admin);
@@ -13,17 +13,17 @@ export default function AdminEditProduct() {
     const elemName = e.target.name;
     const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
 
-    dispatch(setFormEdit({ name: elemName, value }));
+    dispatch(setProductForm({ name: elemName, value }));
   };
 
-  // useEffect(() => {
-  //   dispatch(getSingleProduct(productId));
-  // }, [dispatch, productId]);
+  useEffect(() => {
+    dispatch(getSingleProduct(productId));
+  }, [dispatch, productId]);
 
   return (
     <div>
       <div className="text-center border-b-2 text-xl font-bold fixed p-2 top-16 w-full h-fit bg-white">{productId ? "Edit Product" : "Add Product"}</div>
-      {false ? (
+      {isLoading ? (
         <div className="w-full h-screen flex items-center justify-center">
           <Loader />
         </div>
