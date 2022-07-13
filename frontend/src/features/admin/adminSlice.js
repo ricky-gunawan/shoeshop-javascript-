@@ -8,6 +8,7 @@ const initialState = {
   users: [],
   user: { _id: "", name: "", email: "", address: "", isAdmin: "" },
   orders: [],
+  order: { _id: "", user: "", date: "", items: [], totalItems: "", totalPrice: "", address: "", payment: "", isPaid: "" },
   carts: [],
 };
 
@@ -83,6 +84,16 @@ export const getAllOrders = createAsyncThunk("admin/getAllOrders", async () => {
   }
 });
 
+export const getSingleOrder = createAsyncThunk("admin/getSingleOrder", async (orderId) => {
+  try {
+    const resp = await axios.get(`/api/admin/orders/${orderId}`);
+    const singleOrder = resp.data;
+    return singleOrder;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 export const deleteOrder = createAsyncThunk("admin/deleteOrder", async (orderId) => {
   try {
     const resp = await axios.delete("/api/admin/orders", { data: { orderId } });
@@ -108,6 +119,12 @@ const adminSlice = createSlice({
       const value = action.payload.value;
 
       state.user[elemName] = value;
+    },
+    setOrderForm: (state, action) => {
+      const elemName = action.payload.name;
+      const value = action.payload.value;
+
+      state.order[elemName] = value;
     },
   },
   extraReducers: {
@@ -163,6 +180,14 @@ const adminSlice = createSlice({
       state.orders = action.payload;
     },
     ////
+    [getSingleOrder.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getSingleOrder.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.order = action.payload;
+    },
+    ////
     [deleteOrder.fulfilled]: (state, action) => {
       state.isLoading = false;
       state.orders = action.payload;
@@ -170,6 +195,6 @@ const adminSlice = createSlice({
   },
 });
 
-export const { setProductForm, setUserForm } = adminSlice.actions;
+export const { setProductForm, setUserForm, setOrderForm } = adminSlice.actions;
 
 export default adminSlice.reducer;

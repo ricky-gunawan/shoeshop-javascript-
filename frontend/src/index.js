@@ -18,6 +18,7 @@ import AdminUsers from "./screens/AdminUsers";
 import AdminOrders from "./screens/AdminOrders";
 import AdminEditProduct from "./screens/AdminEditProduct";
 import AdminEditUser from "./screens/AdminEditUser";
+import AdminEditOrder from "./screens/AdminEditOrder";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -38,6 +39,7 @@ root.render(
             <Route path="admin/users" element={<AdminUsers />} />
             <Route path="admin/users/:userId" element={<AdminEditUser />} />
             <Route path="admin/orders" element={<AdminOrders />} />
+            <Route path="admin/orders/:orderId" element={<AdminEditOrder />} />
             <Route
               path="*"
               element={
