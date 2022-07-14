@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Loader from "../components/Loader";
-import { getSingleUser, setUserForm } from "../features/admin/adminSlice";
+import { editUser, getSingleUser, setUserForm } from "../features/admin/adminSlice";
 
 export default function AdminEditUser() {
   const { user, isLoading } = useSelector((store) => store.admin);
@@ -16,10 +16,15 @@ export default function AdminEditUser() {
     dispatch(setUserForm({ name: elemName, value }));
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(editUser(user));
+    window.location.assign("/admin/users");
+  };
+
   useEffect(() => {
     dispatch(getSingleUser(userId));
   }, [dispatch, userId]);
-
   return (
     <div>
       <div className="text-center border-b-2 text-xl font-bold fixed p-2 top-16 w-full h-fit bg-white">Edit User</div>
@@ -28,7 +33,7 @@ export default function AdminEditUser() {
           <Loader />
         </div>
       ) : (
-        <form className="mt-28">
+        <form onSubmit={handleSubmit} className="mt-28 mb-10">
           <table className="mx-auto w-full max-w-screen-lg">
             <tbody>
               <tr>

@@ -28,7 +28,7 @@ export default function AdminEditProduct() {
           <Loader />
         </div>
       ) : (
-        <form className="mt-28">
+        <form className="mt-28 mb-10">
           <table className="mx-auto w-full max-w-screen-lg">
             <tbody>
               <tr>

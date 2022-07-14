@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setUserCart, setUserInfo } from "../features/user/userSlice";
+import { setUserCart, setUserInfo, setUserOrders } from "../features/user/userSlice";
 
 export default function LoginScreen() {
   const navigate = useNavigate();
@@ -26,6 +26,7 @@ export default function LoginScreen() {
       const { data } = await axios.post("/api/user/login", { email, password });
       dispatch(setUserInfo(data.userInfo));
       dispatch(setUserCart(data.userCart));
+      dispatch(setUserOrders(data.userOrders));
       navigate("/");
     } catch (error) {
       if (error.response.status === 400 || error.response.status === 404) {

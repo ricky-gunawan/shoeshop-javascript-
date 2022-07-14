@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Loader from "../components/Loader";
-import { getSingleOrder, setOrderForm } from "../features/admin/adminSlice";
+import { editOrder, getSingleOrder, setOrderForm } from "../features/admin/adminSlice";
 
 export default function AdminEditOrder() {
   const { order, isLoading } = useSelector((store) => store.admin);
@@ -14,6 +14,12 @@ export default function AdminEditOrder() {
     const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
 
     dispatch(setOrderForm({ name: elemName, value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(editOrder(order));
+    window.location.assign("/admin/orders");
   };
 
   useEffect(() => {
@@ -28,7 +34,7 @@ export default function AdminEditOrder() {
           <Loader />
         </div>
       ) : (
-        <form className="mt-28">
+        <form onSubmit={handleSubmit} className="mt-28 mb-10">
           <table className="mx-auto w-full max-w-screen-lg">
             <tbody>
               <tr>

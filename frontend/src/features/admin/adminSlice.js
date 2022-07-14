@@ -62,6 +62,14 @@ export const getSingleUser = createAsyncThunk("admin/getSingleUser", async (user
   }
 });
 
+export const editUser = createAsyncThunk("admin/editUser", async (user) => {
+  try {
+    await axios.post(`/api/admin/users/`, { ...user });
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 export const deleteUser = createAsyncThunk("admin/deleteUser", async (userId) => {
   try {
     const resp = await axios.delete("/api/admin/users", { data: { userId } });
@@ -89,6 +97,14 @@ export const getSingleOrder = createAsyncThunk("admin/getSingleOrder", async (or
     const resp = await axios.get(`/api/admin/orders/${orderId}`);
     const singleOrder = resp.data;
     return singleOrder;
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+export const editOrder = createAsyncThunk("admin/editOrder", async (order) => {
+  try {
+    await axios.post(`/api/admin/orders/`, { ...order });
   } catch (error) {
     console.log(error);
   }

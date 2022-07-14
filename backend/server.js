@@ -108,6 +108,7 @@ app.post("/api/user/login", async (req, res) => {
 
     if (user && pass) {
       const cart = (await Cart.findOne({ user: user._id })) || (await Cart.create({ user: user._id, items: [] }));
+      const order = await Order.find({ user: user._id });
       res.send({
         userInfo: {
           id: user._id,
@@ -118,6 +119,7 @@ app.post("/api/user/login", async (req, res) => {
           token: jwt.sign({ data: user._id }, process.env.JWT_SECRET, { expiresIn: "30d" }),
         },
         userCart: cart,
+        userOrders: order,
       });
     } else {
       res.status(400).send("password do not match");
@@ -185,7 +187,7 @@ app.patch("/api/user/edit", protect, async (req, res) => {
 /////////////////////////////////////////////////////////////////
 //POST cart
 //get all cart item
-app.post("/api/cart", protect, async (req, res) => {
+app.get("/api/cart", protect, async (req, res) => {
   const userId = req.user._id;
   try {
     const cart = (await Cart.findOne({ user: userId })) || (await Cart.create({ user: userId, items: [] }));
@@ -247,6 +249,18 @@ app.patch("/api/cart/quantity", protect, async (req, res) => {
 });
 
 ///////////////////////////////////////////////////////////////////////////
+//GET order
+//get all order items
+app.get("/api/orders", protect, async (req, res) => {
+  const userId = req.user._id;
+  try {
+    const orders = await Order.find({ user: userId });
+    res.status(200).send(orders);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+
 // POST order
 // add an order
 app.post("/api/order", protect, async (req, res) => {
@@ -326,6 +340,17 @@ app.get("/api/admin/users/:userId", async (req, res) => {
   }
 });
 
+// POST admin user
+// edit user
+app.post("/api/admin/users", async (req, res) => {
+  const { _id, isAdmin } = req.body;
+  try {
+    await User.findOneAndUpdate({ _id }, { $set: { isAdmin } }, { runValidators: true });
+  } catch (error) {
+    res.send(error);
+  }
+});
+
 // DELETE admin users
 // delete user
 app.delete("/api/admin/users", async (req, res) => {
@@ -359,6 +384,17 @@ app.get("/api/admin/orders/:orderId", async (req, res) => {
   try {
     const singleOrder = await Order.findById(orderId);
     res.status(200).send(singleOrder);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+// POST admin order
+// edit order
+app.post("/api/admin/orders", async (req, res) => {
+  const { _id, isPaid } = req.body;
+  try {
+    await Order.findOneAndUpdate({ _id }, { $set: { isPaid } }, { runValidators: true });
   } catch (error) {
     res.send(error);
   }
