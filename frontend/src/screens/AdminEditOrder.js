@@ -85,7 +85,23 @@ export default function AdminEditOrder() {
               <tr>
                 <td>items</td>
                 <td>:</td>
-                <td>items</td>
+                <td className="p-2 align-top flex flex-wrap gap-2 max-h-[30vh] overflow-auto">
+                  {order.items.map((product) => (
+                    <div key={product._id} className="flex gap-2 justify-center w-fit border p-1">
+                      <div className="mt-1 grow sm:ml-2">
+                        <h2 className="text-xs font-bold uppercase">{product.name}</h2>
+                        <h3 className="text-xs">
+                          Brand: <span className="uppercase">{product.brand}</span>
+                        </h3>
+                        <h3 className="text-xs">
+                          Color: <Color color={product.color} />
+                        </h3>
+                        <h2 className="text-xs my-1 underline">Rp. {product.price}</h2>
+                        <h3 className="text-xs">Quantity: {product.quantity}</h3>
+                      </div>
+                    </div>
+                  ))}
+                </td>
               </tr>
               <tr>
                 <td>total items</td>
@@ -171,3 +187,25 @@ export default function AdminEditOrder() {
     </div>
   );
 }
+
+const Color = ({ color }) => {
+  return (
+    <span
+      className={`px-1 rounded-md ${
+        color === "black"
+          ? "bg-black text-white"
+          : color === "blue"
+          ? "bg-blue-600 text-white"
+          : color === "green"
+          ? "bg-green-600 text-white"
+          : color === "red"
+          ? "bg-red-600 text-white"
+          : color === "white"
+          ? "bg-white border text-black"
+          : ""
+      }`}
+    >
+      {color}
+    </span>
+  );
+};

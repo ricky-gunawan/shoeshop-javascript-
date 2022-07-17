@@ -11,7 +11,7 @@ export default function Order({ date, items, totalItems, totalPrice, address, pa
               {items.map((item) => (
                 <div key={item._id} className="flex gap-2 justify-center w-fit border p-1">
                   <div className="overflow-hidden grow-0">
-                    <img className="rounded-lg my-1 sm:ml-4" width={100} src={item.img} alt={item.name} />
+                    <img className="rounded-lg my-1 sm:ml-4" width={100} src={`/static/images/${item.img}`} alt={item.name} />
                   </div>
                   <div className="mt-1 grow sm:ml-2">
                     <h2 className="text-base font-semibold uppercase">{item.name}</h2>

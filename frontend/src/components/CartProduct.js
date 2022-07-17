@@ -28,7 +28,7 @@ export default function CartProduct({ productId, img, name, price, brand, color,
     <div className="flex flex-col mb-2 border-b p-1">
       <div className="flex gap-2 justify-center">
         <div className="overflow-hidden grow-0">
-          <img className="rounded-lg my-1 sm:ml-4" width={100} src={img} alt={name} />
+          <img className="rounded-lg my-1 sm:ml-4" width={100} src={`/static/images/${img}`} alt={name} />
         </div>
         <div className="mt-1 grow sm:ml-2">
           <h2 className="text-base font-semibold uppercase">{name}</h2>

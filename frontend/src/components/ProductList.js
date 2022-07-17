@@ -14,7 +14,7 @@ export default function ProductList({ _id, img, name, price, brand, color, descr
     <tr className="text-sm border-y text-center">
       <td className="pr-2">{_id}</td>
       <td>
-        <img className="rounded-lg my-1" width={80} src={img} alt={name} />
+        <img className="rounded-lg my-1" width={80} src={`/static/images/${img}`} alt={name} />
       </td>
       <td className="">{name}</td>
       <td className="">Rp. {price}</td>

@@ -10,6 +10,18 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const port = process.env.PORT;
 
+// multer
+const multer = require("multer");
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, "/assets/images"));
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + Math.round(Math.random() * 1e9) + "-" + file.originalname);
+  },
+});
+const upload = multer({ storage });
+
 // express
 const express = require("express");
 const app = express();
@@ -57,41 +69,6 @@ app.get("/api/products/:id", async (req, res) => {
   try {
     const searchProduct = await Product.findById(params);
     searchProduct ? res.json(searchProduct) : res.status(404).send("couldn't find the product");
-  } catch (error) {
-    res.status(404).send(error.message);
-  }
-});
-
-//POST new product
-app.post("/api/product", async (req, res) => {
-  const newProduct = req.body;
-  try {
-    await Product.create(newProduct);
-    res.status(201).send("berhasil menambahkan product");
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-});
-
-//PATCH updating product
-app.patch("/api/product/:id", async (req, res) => {
-  const params = req.params.id;
-  const updatedProduct = req.body;
-
-  try {
-    await Product.findByIdAndUpdate(params, updatedProduct);
-    res.send("Product updated");
-  } catch (error) {
-    res.status(400).send(error.message);
-  }
-});
-
-//DELETE product
-app.delete("/api/product/:id", async (req, res) => {
-  const params = req.params.id;
-  try {
-    await Product.findByIdAndDelete(params);
-    res.status(201).send("succeed deleting product");
   } catch (error) {
     res.status(404).send(error.message);
   }
@@ -212,6 +189,7 @@ app.patch("/api/cart/add", protect, async (req, res) => {
       brand: product.brand,
       color: product.color,
     };
+
     const newCart = await Cart.findOneAndUpdate({ user: userId, "items.product": { $ne: productId } }, { $push: { items: newItem } }, { runValidators: true, new: true });
     res.status(201).send(newCart);
   } catch (error) {
@@ -298,6 +276,23 @@ app.get("/api/admin/products/:productId", async (req, res) => {
   try {
     const singleProduct = await Product.findById(productId);
     res.status(200).send(singleProduct);
+  } catch (error) {
+    res.send(error);
+  }
+});
+
+// POST admin product
+// edit product
+app.post("/api/admin/products", upload.single("image"), async (req, res) => {
+  const { _id, img, name, price, brand, color, description } = req.body;
+  const newImage = req.file ? req.file.filename : img;
+
+  try {
+    if (_id) {
+      await Product.findOneAndUpdate({ _id }, { $set: { img: newImage, name, price, brand, color, description } }, { runValidators: true });
+    } else {
+      await Product.create({ img: newImage, name, price, brand, color, description });
+    }
   } catch (error) {
     res.send(error);
   }
@@ -415,6 +410,7 @@ app.delete("/api/admin/orders", async (req, res) => {
 });
 
 // static file
+
 app.use("/static", express.static(path.join(__dirname, "assets")));
 
 app.listen(port, () => {

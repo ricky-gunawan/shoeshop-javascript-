@@ -11,4 +11,15 @@ export const store = configureStore({
     user: userReducer,
     admin: adminReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore these action types
+        ignoredActions: ["admin/setProductForm"],
+        // Ignore these field paths in all actions
+        // ignoredActionPaths: ['meta.arg', 'payload.timestamp'],
+        // // Ignore these paths in the state
+        ignoredPaths: ["admin.product"],
+      },
+    }),
 });

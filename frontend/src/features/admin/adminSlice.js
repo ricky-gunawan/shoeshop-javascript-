@@ -4,7 +4,7 @@ import axios from "axios";
 const initialState = {
   isLoading: true,
   products: [],
-  product: { _id: "", img: "", name: "", price: "", brand: "", color: "", description: "" },
+  product: { _id: "", img: undefined, image: undefined, name: "", price: "", brand: "", color: "", description: "" },
   users: [],
   user: { _id: "", name: "", email: "", address: "", isAdmin: "" },
   orders: [],
@@ -21,15 +21,29 @@ export const getAllProducts = createAsyncThunk("admin/getAllProducts", async () 
     console.log(error);
   }
 });
-export const getSingleProduct = createAsyncThunk("admin/getSingleProduct", async (productId) => {
+export const getSingleProduct = createAsyncThunk("admin/getSingleProduct", async (productId, thunkAPI) => {
   try {
-    const resp = await axios.get(`/api/admin/products/${productId}`);
-    const singleProduct = resp.data;
-    return singleProduct;
+    if (productId === "add") {
+      const store = thunkAPI.getState();
+      return store.admin.product;
+    } else {
+      const resp = await axios.get(`/api/admin/products/${productId}`);
+      const singleProduct = resp.data;
+      return singleProduct;
+    }
   } catch (error) {
     console.log(error);
   }
 });
+
+export const editProduct = createAsyncThunk("admin/editProduct", async (product) => {
+  try {
+    await axios.post("/api/admin/products", product);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
 export const deleteProduct = createAsyncThunk("admin/deleteProduct", async (productId) => {
   try {
     const resp = await axios.delete("/api/admin/products", { data: { productId } });

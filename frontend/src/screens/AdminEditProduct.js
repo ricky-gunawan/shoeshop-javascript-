@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Loader from "../components/Loader";
-import { getSingleProduct, setProductForm } from "../features/admin/adminSlice";
+import { editProduct, getSingleProduct, setProductForm } from "../features/admin/adminSlice";
 
 export default function AdminEditProduct() {
   const { product, isLoading } = useSelector((store) => store.admin);
@@ -11,9 +11,20 @@ export default function AdminEditProduct() {
 
   const handleForm = (e) => {
     const elemName = e.target.name;
-    const value = e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    const value = elemName === "price" ? priceStr(e.target.value) : e.target.type === "checkbox" ? e.target.checked : e.target.type === "file" ? e.target.files[0] : e.target.value;
 
     dispatch(setProductForm({ name: elemName, value }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = new FormData();
+    for (let prop in product) {
+      data.append(prop, product[prop]);
+    }
+
+    dispatch(editProduct(data));
+    window.location.assign("/admin/products");
   };
 
   useEffect(() => {
@@ -22,13 +33,13 @@ export default function AdminEditProduct() {
 
   return (
     <div>
-      <div className="text-center border-b-2 text-xl font-bold fixed p-2 top-16 w-full h-fit bg-white">{productId ? "Edit Product" : "Add Product"}</div>
+      <div className="text-center border-b-2 text-xl font-bold fixed p-2 top-16 w-full h-fit bg-white">{productId === "add" ? "Add Product" : "Edit Product"}</div>
       {isLoading ? (
         <div className="w-full h-screen flex items-center justify-center">
           <Loader />
         </div>
       ) : (
-        <form className="mt-28 mb-10">
+        <form onSubmit={handleSubmit} className="mt-28 mb-10">
           <table className="mx-auto w-full max-w-screen-lg">
             <tbody>
               <tr>
@@ -47,45 +58,49 @@ export default function AdminEditProduct() {
                 </td>
               </tr>
               <tr>
-                <td>image</td>
-                <td>:</td>
-                <td>
-                  <input value={product.img} onChange={handleForm} type="text" name="img" id="admin_product_img" className="w-full my-2 text-ellipsis rounded-sm border border-slate-300 focus:border-cyan-400 focus:ring-cyan-400" />
+                <td className="align-top">image</td>
+                <td className="align-top">:</td>
+                <td className="flex">
+                  <div>
+                    <input onChange={handleForm} required={product.img ? false : true} type="file" accept=".jpg,.jpeg,.png,.webp" name="image" id="admin_product_image" className="" />
+                    {product.image && <img className="rounded-md mt-2" width={100} src={URL.createObjectURL(product.image)} title={product.image.name} alt={product.image.name} />}
+                  </div>
+                  {product.img && <img className="rounded-lg align-top" width={150} src={`/static/images/${product.img}`} title={product.name} alt={product.name} />}
                 </td>
               </tr>
               <tr>
                 <td>name</td>
                 <td>:</td>
                 <td>
-                  <input value={product.name} onChange={handleForm} type="text" name="name" id="admin_product_name" className="w-full my-2 rounded-sm border border-slate-300 focus:border-cyan-400 focus:ring-cyan-400" />
+                  <input value={product.name} onChange={handleForm} required type="text" name="name" id="admin_product_name" className="w-full my-2 rounded-sm border border-slate-300 focus:border-cyan-400 focus:ring-cyan-400" />
                 </td>
               </tr>
               <tr>
                 <td>price</td>
                 <td>:</td>
                 <td>
-                  <input value={product.price} onChange={handleForm} type="text" name="price" id="admin_product_price" className="w-full my-2 rounded-sm border border-slate-300 focus:border-cyan-400 focus:ring-cyan-400" />
+                  <input value={product.price} onChange={handleForm} required type="text" name="price" id="admin_product_price" className="w-full my-2 rounded-sm border border-slate-300 focus:border-cyan-400 focus:ring-cyan-400" />
                 </td>
               </tr>
               <tr>
                 <td>brand</td>
                 <td>:</td>
                 <td>
-                  <input value={product.brand} onChange={handleForm} type="text" name="brand" id="admin_product_brand" className="w-full my-2 rounded-sm border border-slate-300 focus:border-cyan-400 focus:ring-cyan-400" />
+                  <input value={product.brand} onChange={handleForm} required type="text" name="brand" id="admin_product_brand" className="w-full my-2 rounded-sm border border-slate-300 focus:border-cyan-400 focus:ring-cyan-400" />
                 </td>
               </tr>
               <tr>
                 <td>color</td>
                 <td>:</td>
                 <td>
-                  <input value={product.color} onChange={handleForm} type="text" name="color" id="admin_product_color" className="w-full my-2 rounded-sm border border-slate-300 focus:border-cyan-400 focus:ring-cyan-400" />
+                  <input value={product.color} onChange={handleForm} required type="text" name="color" id="admin_product_color" className="w-full my-2 rounded-sm border border-slate-300 focus:border-cyan-400 focus:ring-cyan-400" />
                 </td>
               </tr>
               <tr>
                 <td>description</td>
                 <td>:</td>
                 <td>
-                  <textarea value={product.description} onChange={handleForm} name="description" id="admin_product_description" className="w-full h-20 rounded-sm border border-slate-300 focus:border-cyan-400 focus:ring-cyan-400" />
+                  <textarea value={product.description} onChange={handleForm} required name="description" id="admin_product_description" className="w-full h-20 rounded-sm border border-slate-300 focus:border-cyan-400 focus:ring-cyan-400" />
                 </td>
               </tr>
             </tbody>
@@ -96,3 +111,16 @@ export default function AdminEditProduct() {
     </div>
   );
 }
+
+const priceStr = (str) => {
+  const s = toNumber(str).toString();
+  const a = s.split("").reverse().join("");
+  const b = a.replace(/(.{3})/g, "$1.");
+  const c = b.split("").reverse().join("");
+  return c.charAt(0) === "." ? c.slice(1) : c;
+};
+
+const toNumber = (str) => {
+  const newStr = str.replaceAll(".", "");
+  return Number(newStr);
+};

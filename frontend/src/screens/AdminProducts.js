@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import Loader from "../components/Loader";
 import ProductList from "../components/ProductList";
 import { getAllProducts } from "../features/admin/adminSlice";
@@ -25,7 +26,12 @@ export default function AdminProducts() {
         </div>
       ) : (
         <div className="mt-28 w-fit mx-auto">
-          <div>Total: {num}</div>
+          <div className="mb-2 pt-2 flex justify-between">
+            <div>Total: {num}</div>
+            <Link to={"/admin/products/add"} className="p-1 uppercase bg-cyan-400 hover:bg-cyan-500 rounded-lg text-white text-sm font-semibold">
+              add product
+            </Link>
+          </div>
           <table>
             <thead className="text-center border-y-2">
               <tr>
