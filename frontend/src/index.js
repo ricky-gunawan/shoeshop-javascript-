@@ -6,19 +6,6 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Provider } from "react-redux";
 import { store } from "./store";
-import ProductScreen from "./screens/ProductScreen";
-import Homescreen from "./screens/HomeScreen";
-import CartScreen from "./screens/CartScreen";
-import OrdersScreen from "./screens/OrdersScreen";
-import ProfileScreen from "./screens/ProfileScreen";
-import SignupScreen from "./screens/SignupScreen";
-import LoginScreen from "./screens/LoginScreen";
-import AdminProducts from "./screens/AdminProducts";
-import AdminUsers from "./screens/AdminUsers";
-import AdminOrders from "./screens/AdminOrders";
-import AdminEditProduct from "./screens/AdminEditProduct";
-import AdminEditUser from "./screens/AdminEditUser";
-import AdminEditOrder from "./screens/AdminEditOrder";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -26,30 +13,7 @@ root.render(
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<App />}>
-            <Route index element={<Homescreen />} />
-            <Route path="product/:productId" element={<ProductScreen />} />
-            <Route path="cart" element={<CartScreen />} />
-            <Route path="orders" element={<OrdersScreen />} />
-            <Route path="profile" element={<ProfileScreen />} />
-            <Route path="register" element={<SignupScreen />} />
-            <Route path="login" element={<LoginScreen />} />
-            <Route path="admin/products" element={<AdminProducts />} />
-            <Route path="admin/products/:productId" element={<AdminEditProduct />} />
-            <Route path="admin/users" element={<AdminUsers />} />
-            <Route path="admin/users/:userId" element={<AdminEditUser />} />
-            <Route path="admin/orders" element={<AdminOrders />} />
-            <Route path="admin/orders/:orderId" element={<AdminEditOrder />} />
-            <Route
-              path="*"
-              element={
-                <div className="mt-28 text-center">
-                  <p>404!</p>
-                  <p>Tidak ada apa apa di sini kawan</p>
-                </div>
-              }
-            />
-          </Route>
+          <Route path="*" element={<App />} />
         </Routes>
       </BrowserRouter>
     </Provider>
