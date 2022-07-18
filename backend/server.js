@@ -409,9 +409,18 @@ app.delete("/api/admin/orders", async (req, res) => {
   }
 });
 
-// static file
-
+////// static file
+// assets/image
 app.use("/static", express.static(path.join(__dirname, "assets")));
+
+// frontend
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(path.resolve(), "frontend/build")));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(path.resolve(), "frontend", "build", "index.html"));
+  });
+}
 
 app.listen(port, () => {
   console.log(`server is running on port: ${port}`);
